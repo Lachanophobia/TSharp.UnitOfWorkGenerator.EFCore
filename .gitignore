@@ -1,0 +1,10 @@
+
+TSharp.UnitOfWorkGenerator.API/bin/
+
+TSharp.UnitOfWorkGenerator.API/obj/
+
+.vs/
+
+TSharp.UnitOfWorkGenerator.Core/bin/
+
+TSharp.UnitOfWorkGenerator.Core/obj/

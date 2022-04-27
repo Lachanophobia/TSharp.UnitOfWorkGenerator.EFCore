@@ -138,7 +138,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             IUnitOfWorkBuilder.Append($"namespace {unitOfWorkNameSpace} \n");
             IUnitOfWorkBuilder.Append("{ \n");
-            IUnitOfWorkBuilder.Append("    public interface IUnitOfWork \n");
+            IUnitOfWorkBuilder.Append("    public partial interface IUnitOfWork \n");
             IUnitOfWorkBuilder.Append("    { \n");
 
             foreach (var repo in Repositories)
@@ -197,7 +197,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             IRepoBuilder.Append($"namespace {iReposNamespace} \n");
             IRepoBuilder.Append("{ \n");
-            IRepoBuilder.Append($"    public interface {RepoNames.GenInterfaceName} : IRepository<{RepoNames.ClassName}> \n");
+            IRepoBuilder.Append($"    public partial interface {RepoNames.GenInterfaceName} : IRepository<{RepoNames.ClassName}> \n");
             IRepoBuilder.Append("    { \n");
 
             IRepoBuilder.Append("    } \n");

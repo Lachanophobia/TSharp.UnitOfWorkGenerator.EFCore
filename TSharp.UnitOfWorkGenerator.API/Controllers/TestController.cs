@@ -22,13 +22,18 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
         }
 
         [HttpGet]
-        [Route("Get")]
-        public async Task<IActionResult> Get()
+        [Route("GetPosts")]
+        public async Task<IActionResult> GetPosts()
         {
             return Ok(await _unitOfWork.Post.GetAllAsync());
         }
 
-
+        [HttpGet]
+        [Route("GetPostsFromPartialClass")]
+        public async Task<IActionResult> GetPostsFromPartialClass()
+        {
+            return Ok(await _unitOfWork.Post.GetPostsFromPartialClass());
+        }
 
         [HttpGet]
         [Route("GetAll")]
