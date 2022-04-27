@@ -1,0 +1,10 @@
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\bin\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.deps.json
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\bin\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.dll
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\bin\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.pdb
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.csproj.AssemblyReference.cache
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.AssemblyInfoInputs.cache
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.AssemblyInfo.cs
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.csproj.CoreCompileInputs.cache
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.dll
+D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.Core\obj\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.Core.pdb

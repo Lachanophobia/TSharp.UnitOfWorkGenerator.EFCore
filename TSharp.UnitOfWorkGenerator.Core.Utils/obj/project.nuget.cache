@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ijJ1nHq30zBrV38o5FET63uVriR2FoWAKGpEXUR3V3dOr3R/PKU/Aggl6pwjzd7DuN7AkaQhDT64Mz6UBP5g7g==",
+  "success": true,
+  "projectFilePath": "D:\\Projects\\TSharp.UnitOfWorkGenerator\\TSharp.UnitOfWorkGenerator.Core.Utils\\TSharp.UnitOfWorkGenerator.Core.Utils.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\thoma\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\thoma\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
