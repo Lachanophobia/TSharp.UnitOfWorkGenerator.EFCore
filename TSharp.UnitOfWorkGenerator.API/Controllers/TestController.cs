@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TSharp.UnitOfWorkGenerator.API.Entyties;
-using GeneratedUnitOfWork;
 using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

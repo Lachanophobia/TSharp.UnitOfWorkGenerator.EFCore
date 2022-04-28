@@ -7,7 +7,6 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
     {
         public async Task<List<Post>> GetPostsFromPartialClass()
         {
-
             var posts = (await this.GetAllAsync()).ToList();
             posts.Add(new Post()
             {

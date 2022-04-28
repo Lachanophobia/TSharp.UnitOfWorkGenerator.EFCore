@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using GeneratedUnitOfWork;
+using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.API.Controllers
 {
@@ -11,15 +11,6 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUnitOfWork unitOfWork)
-        {
-            _logger = logger;
-            _unitOfWork = unitOfWork;
-        }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()

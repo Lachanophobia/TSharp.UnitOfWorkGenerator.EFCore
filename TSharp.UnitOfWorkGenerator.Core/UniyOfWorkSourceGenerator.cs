@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -11,7 +9,6 @@ namespace TSharp.UnitOfWorkGenerator.Core
     [Generator]
     public class UniyOfWorkSourceGenerator : ISourceGenerator
     {
-        readonly static string unitOfWorkNameSpace = "GeneratedUnitOfWork";
         readonly static string reposNamespace = "TSharp.UnitOfWorkGenerator.API.Repositories.Repository";
         readonly static string iReposNamespace = "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository";
         readonly static string bdContextName = "TSharpContext";
@@ -32,7 +29,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
             {
                 $"using {iReposNamespace}; \n",
             };
-
+       
         private class GenRepoNames
         {
             public string ClassName { get; set; }
@@ -60,7 +57,13 @@ namespace TSharp.UnitOfWorkGenerator.Core
                 var genClassName = $"{className}Repository";
                 var genInterfaceName = $"I{className}Repository";
 
-                var names = new GenRepoNames() { ClassName = className, GenClassName = genClassName, GenInterfaceName = genInterfaceName };
+                var names = new GenRepoNames()
+                {
+                    ClassName = className,
+                    GenClassName = genClassName,
+                    GenInterfaceName = genInterfaceName
+                };
+
                 GenNames.Add(names);
 
                 GenerateIRepo(repo, names, context);
@@ -70,7 +73,6 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             GenerateIUnitOfWork(GenNames, defaultIUnitOfWorkUsings, context);
             GenerateUnitOfWork(GenNames, defaultIUnitOfWorkUsings, context);
-
         }
 
         private void GenerateUnitOfWork(List<GenRepoNames> Repositories, IEnumerable<string> UsingDirectives, GeneratorExecutionContext context)
@@ -83,7 +85,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
                 UnitOfWorkBuilder.Append(usingDirective);
             }
 
-            UnitOfWorkBuilder.Append($"namespace {unitOfWorkNameSpace} \n");
+            UnitOfWorkBuilder.Append($"namespace {reposNamespace} \n");
             UnitOfWorkBuilder.Append("{ \n");
             UnitOfWorkBuilder.Append("    public partial class UnitOfWork : IUnitOfWork \n");
             UnitOfWorkBuilder.Append("    { \n");
@@ -92,7 +94,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
             UnitOfWorkBuilder.Append("       public UnitOfWork \n");
             UnitOfWorkBuilder.Append("       ( \n");
 
-            foreach(var (repository, index) in Repositories.WithIndex())
+            foreach (var (repository, index) in Repositories.WithIndex())
             {
                 UnitOfWorkBuilder.Append($"       {repository.GenInterfaceName} {repository.GenClassName}{(index != Repositories.Count - 1 ? "," : string.Empty)} \n");
             }
@@ -136,16 +138,16 @@ namespace TSharp.UnitOfWorkGenerator.Core
                 IUnitOfWorkBuilder.Append(usingDirective);
             }
 
-            IUnitOfWorkBuilder.Append($"namespace {unitOfWorkNameSpace} \n");
+            IUnitOfWorkBuilder.Append($"namespace {iReposNamespace} \n");
             IUnitOfWorkBuilder.Append("{ \n");
             IUnitOfWorkBuilder.Append("    public partial interface IUnitOfWork \n");
             IUnitOfWorkBuilder.Append("    { \n");
 
             foreach (var repo in Repositories)
             {
-
                 IUnitOfWorkBuilder.Append($"        {repo.GenInterfaceName} {repo.ClassName} " + "{get; } \n");
             }
+
             IUnitOfWorkBuilder.Append("    } \n");
             IUnitOfWorkBuilder.Append("}");
 
@@ -170,14 +172,10 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             RepoBuilder.Append("        private readonly TSharpContext _context; \n \n");
 
-
             RepoBuilder.Append($"        public {RepoNames.GenClassName}({bdContextName} db) : base(db)" + " \n");
             RepoBuilder.Append("        { \n");
-            RepoBuilder.Append("               _context = db; \n");
-
+            RepoBuilder.Append("            _context = db; \n");
             RepoBuilder.Append("        } \n");
-
-
 
             RepoBuilder.Append("    } \n");
             RepoBuilder.Append("}");
@@ -208,14 +206,13 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
         public void Initialize(GeneratorInitializationContext context)
         {
-//#if DEBUG
-//            if (!Debugger.IsAttached)
-//            {
-//                Debugger.Launch();
-//            }
-//#endif
-//            Debug.WriteLine("Initalize code generator");
-
+            //#if DEBUG
+            //            if (!Debugger.IsAttached)
+            //            {
+            //                Debugger.Launch();
+            //            }
+            //#endif
+            //            Debug.WriteLine("Initalize code generator");
         }
     }
 }

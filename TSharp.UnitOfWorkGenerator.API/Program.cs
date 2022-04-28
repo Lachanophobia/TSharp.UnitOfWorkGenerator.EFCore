@@ -2,10 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using TSharp.UnitOfWorkGenerator.API.Entyties;
 using TSharp.UnitOfWorkGenerator.API.Repositories.Repository;
 using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
-using GeneratedUnitOfWork;
-using TSharp.UnitOfWorkGenerator.Core;
-using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +28,6 @@ builder.Services.Scan(scan => scan
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.
