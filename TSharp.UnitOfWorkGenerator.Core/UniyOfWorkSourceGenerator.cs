@@ -34,6 +34,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
             {
                 $"using {settings.DBEntitiesNamespace}; \n"
             };
+
             List<string> defaultIUnitOfWorkUsings = new List<string>() {
                 $"using {settings.IGenRepoNamespace}; \n"
             };
@@ -46,17 +47,17 @@ namespace TSharp.UnitOfWorkGenerator.Core
                 var genClassName = $"{className}Repository";
                 var genInterfaceName = $"I{className}Repository";
 
-                var names = new GenRepoNames()
+                var genRepoNames = new GenRepoNames()
                 {
                     ClassName = className,
                     GenClassName = genClassName,
                     GenInterfaceName = genInterfaceName
                 };
 
-                GenNames.Add(names);
+                GenNames.Add(genRepoNames);
 
-                GenerateIRepo(repo, names, defaultIRepoUsings, settings,  context);
-                GenerateRepo(repo, names, defaultRepoUsings, settings, context);
+                GenerateIRepo(genRepoNames, defaultIRepoUsings, settings,  context);
+                GenerateRepo(genRepoNames, defaultRepoUsings, settings, context);
             }
 
             GenerateIUnitOfWork(GenNames, defaultIUnitOfWorkUsings, settings, context);
@@ -143,7 +144,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
         }
 
-        private void GenerateRepo(TypeDeclarationSyntax Repository, GenRepoNames RepoNames, List<string> defaultRepoUsings, UoWSourceGenerator settings, GeneratorExecutionContext Context)
+        private void GenerateRepo(GenRepoNames RepoNames, List<string> defaultRepoUsings, UoWSourceGenerator settings, GeneratorExecutionContext Context)
         {
             var RepoBuilder = new StringBuilder();
             RepoBuilder.Append("// Auto-generated code \n");
@@ -171,7 +172,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
             Context.AddSource($"{RepoNames.GenClassName}.g.cs", RepoBuilder.ToString());
         }
 
-        private void GenerateIRepo(TypeDeclarationSyntax Repository, GenRepoNames RepoNames, List<string> defaultIRepoUsings, UoWSourceGenerator settings, GeneratorExecutionContext Context)
+        private void GenerateIRepo(GenRepoNames RepoNames, List<string> defaultIRepoUsings, UoWSourceGenerator settings, GeneratorExecutionContext Context)
         {
             var IRepoBuilder = new StringBuilder();
             IRepoBuilder.Append("// Auto-generated code \n");
