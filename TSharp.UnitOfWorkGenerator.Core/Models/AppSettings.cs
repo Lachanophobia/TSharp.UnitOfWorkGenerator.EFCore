@@ -1,4 +1,4 @@
-﻿namespace TSharp.UnitOfWorkGenerator.Core
+﻿namespace TSharp.UnitOfWorkGenerator.Core.Models
 {
     internal class AppSettings
     {
@@ -7,8 +7,8 @@
 
     internal class UoWSourceGenerator
     {
-        public string IGenRepoNamespace { get; set; }
-        public string GenRepoNamespace { get; set; }
+        public string IRepoNamespace { get; set; }
+        public string RepoNamespace { get; set; }
         public string DBEntitiesNamespace { get; set; }
         public string DBContextName { get; set; }
     }
