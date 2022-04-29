@@ -8,3 +8,9 @@ TSharp.UnitOfWorkGenerator.API/obj/
 TSharp.UnitOfWorkGenerator.Core/bin/
 
 TSharp.UnitOfWorkGenerator.Core/obj/
+
+TSharp.UnitOfWorkGenerator.Core.Utils/bin/
+
+TSharp.UnitOfWorkGenerator.Core.Utils/obj/
+
+.idea/
