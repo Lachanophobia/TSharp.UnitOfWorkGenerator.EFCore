@@ -85,7 +85,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             foreach (var (repository, index) in Repositories.WithIndex())
             {
-                UnitOfWorkBuilder.Append($"       {repository.GenInterfaceName} {repository.GenClassName}{(index != Repositories.Count - 1 ? "," : string.Empty)} \n");
+                UnitOfWorkBuilder.Append($"           {repository.GenInterfaceName} {repository.GenClassName}{(index != Repositories.Count - 1 ? "," : string.Empty)} \n");
             }
 
             UnitOfWorkBuilder.Append("       ) \n");
@@ -97,7 +97,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             foreach (var repository in Repositories)
             {
-                UnitOfWorkBuilder.Append($"       {repository.ClassName} = {repository.GenClassName}; \n");
+                UnitOfWorkBuilder.Append($"           {repository.ClassName} = {repository.GenClassName}; \n");
             }
 
             UnitOfWorkBuilder.Append("       } \n");
