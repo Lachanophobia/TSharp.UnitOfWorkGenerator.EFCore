@@ -28,7 +28,8 @@ namespace TSharp.UnitOfWorkGenerator.Core
         public void Execute(GeneratorExecutionContext context)
         {
             var syntaxTrees = context.Compilation.SyntaxTrees;
-            var genNamesList = new List<GeneratedRepoNames>();
+            var genRepoNamesList = new List<GeneratedRepoNames>();
+            var generatedUoWInfo = new GeneratedUoWInfo();
 
             var reposToBeAdded = syntaxTrees
                 .SelectMany(syntaxTree => syntaxTree.GetRoot().DescendantNodes())
@@ -53,46 +54,47 @@ namespace TSharp.UnitOfWorkGenerator.Core
                     IRepoName = $"I{entity}Repository"
                 };
 
-                genNamesList.Add(genRepoNames);
+                genRepoNamesList.Add(genRepoNames);
 
                 GenerateIRepo(genRepoNames, settings, context);
                 GenerateRepo(genRepoNames, settings, context);
             }
 
-            var generatedUoWInfo = new GeneratedUoWInfo();
-            generatedUoWInfo = GetGeneratedUoWInfo(genNamesList);
+            generatedUoWInfo = GetGeneratedUoWInfo(genRepoNamesList);
 
-            GenerateIUoW(genNamesList, generatedUoWInfo, settings, context);
-            GenerateUoW(genNamesList, generatedUoWInfo, settings, context);
+            GenerateIUoW(generatedUoWInfo, settings, context);
+            GenerateUoW(generatedUoWInfo, settings, context);
         }
 
         #region Generate Source Code
-        private void GenerateUoW(List<GeneratedRepoNames> genRepoNames, GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
+        private void GenerateUoW(GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
         {
             var defaultUsings =
                 $"using {settings.IRepoNamespace};";
 
-            var template = UoWTemplates.GetUoWTemplate();
-            var uoWTemplate = template.Replace("{UsingStatements}", defaultUsings)
-                .Replace("{Namespace}", settings.RepoNamespace)
-                .Replace("{Properties}", generatedInfo.UoW_Properties)
-                .Replace("{ConstructorParameters}", generatedInfo.UoW_Parameters)
-                .Replace("{Constructor}", generatedInfo.UoW_Constructor);
+            var template = new UoWTemplate()
+                .WithUsingStatements(defaultUsings)
+                .WithNamespace(settings.RepoNamespace)
+                .WithProperties(generatedInfo.UoW_Properties)
+                .WithParameters(generatedInfo.UoW_Parameters)
+                .WithConstructor(generatedInfo.UoW_Constructor)
+                .BuildUoWTemplate();
 
-            context.AddSource($"UnitOfWork.g.cs", uoWTemplate);
+            context.AddSource($"UnitOfWork.g.cs", template);
         }
 
-        private void GenerateIUoW(List<GeneratedRepoNames> genRepoNames, GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
+        private void GenerateIUoW(GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
         {
             var defaultUsings =
                 $"using {settings.IRepoNamespace};";
 
-            var template = UoWTemplates.GetIUoWTemplate();
-            var iUoWTemplate = template.Replace("{UsingStatements}", defaultUsings)
-                .Replace("{Namespace}", settings.IRepoNamespace)
-                .Replace("{Properties}", generatedInfo.IUoW_Properties);
+            var template = new UoWTemplate()
+                .WithUsingStatements(defaultUsings)
+                .WithNamespace(settings.IRepoNamespace)
+                .WithProperties(generatedInfo.IUoW_Properties)
+                .BuildIUoWTemplate();
 
-            context.AddSource($"IUnitOfWork.g.cs", iUoWTemplate);
+            context.AddSource($"IUnitOfWork.g.cs", template);
         }
 
         private void GenerateRepo(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context)
@@ -101,15 +103,16 @@ namespace TSharp.UnitOfWorkGenerator.Core
                $"using {settings.DBEntitiesNamespace}; \n" +
                $"using {settings.IRepoNamespace};";
 
-            var template = UoWTemplates.GetRepoTemplate();
-            var repoTemplate = template.Replace("{UsingStatements}", defaultUsings)
-                .Replace("{Namespace}", settings.RepoNamespace)
-                .Replace("{RepoName}", genRepoNames.RepoName)
-                .Replace("{Entity}", genRepoNames.Entity)
-                .Replace("{Interface}", genRepoNames.IRepoName)
-                .Replace("{DBContextName}", settings.DBContextName);
+            var template = new UoWTemplate()
+                .WithUsingStatements(defaultUsings)
+                .WithNamespace(settings.RepoNamespace)
+                .WithRepoName(genRepoNames.RepoName)
+                .WithEntity(genRepoNames.Entity)
+                .WithIRepoName(genRepoNames.IRepoName)
+                .WithDBContextName(settings.DBContextName)
+                .BuildRepoTemplate();
 
-            context.AddSource($"{genRepoNames.RepoName}.g.cs", repoTemplate);
+            context.AddSource($"{genRepoNames.RepoName}.g.cs", template);
         }
 
         private void GenerateIRepo(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context)
@@ -117,13 +120,14 @@ namespace TSharp.UnitOfWorkGenerator.Core
             var defaultUsings =
               $"using {settings.DBEntitiesNamespace};";
 
-            var template = UoWTemplates.GetIRepoTemplate();
-            var iRepoTemplate = template.Replace("{UsingStatements}", defaultUsings)
-                .Replace("{Namespace}", settings.IRepoNamespace)
-                .Replace("{IRepoName}", genRepoNames.IRepoName)
-                .Replace("{Entity}", genRepoNames.Entity);
+            var template = new UoWTemplate()
+                .WithUsingStatements(defaultUsings)
+                .WithNamespace(settings.IRepoNamespace)
+                .WithEntity(genRepoNames.Entity)
+                .WithIRepoName(genRepoNames.IRepoName)
+                .BuildIRepoTemplate();
 
-            context.AddSource($"{genRepoNames.IRepoName}.g.cs", iRepoTemplate);
+            context.AddSource($"{genRepoNames.IRepoName}.g.cs", template);
         }
 
         #endregion
