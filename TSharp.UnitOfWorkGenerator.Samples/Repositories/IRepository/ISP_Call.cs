@@ -3,7 +3,7 @@ using System.Data;
 
 namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
 {
-    public interface ISP_Call : IDisposable
+    public partial interface ISP_Call : IDisposable
     {
         void Dispose();
 

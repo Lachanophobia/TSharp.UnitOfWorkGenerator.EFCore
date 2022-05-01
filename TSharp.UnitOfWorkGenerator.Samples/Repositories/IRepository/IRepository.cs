@@ -6,7 +6,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
     {
     }
 
-    public interface IRepository<T> : IRepository where T : class
+    public partial interface IRepository<T> : IRepository where T : class
     {
         #region asynchronous methods
 

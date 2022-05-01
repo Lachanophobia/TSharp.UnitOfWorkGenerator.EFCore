@@ -10,12 +10,10 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private readonly IPostRepository _postRepo;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TestController(IPostRepository postRepo, IUnitOfWork unitOfWork)
+        public TestController(IUnitOfWork unitOfWork)
         {
-            _postRepo = postRepo;
             _unitOfWork = unitOfWork;
         }
 

@@ -7,7 +7,7 @@ using TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
 {
-    public class SP_Call : ISP_Call
+    public partial class SP_Call : ISP_Call
     {
 
         private readonly TSharpContext _db;
