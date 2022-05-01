@@ -1,4 +1,4 @@
-﻿using TSharp.UnitOfWorkGenerator.API.Entyties;
+﻿using TSharp.UnitOfWorkGenerator.API.Entities;
 
 namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
 {

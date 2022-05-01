@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using TSharp.UnitOfWorkGenerator.API.Entyties;
 using TSharp.UnitOfWorkGenerator.API.Repositories.Repository;
 using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
+using TSharp.UnitOfWorkGenerator.API.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +24,8 @@ builder.Services.Scan(scan => scan
     .AddClasses(classes => classes.AssignableTo<IRepository>())
     .AsImplementedInterfaces()
     .WithScopedLifetime());
+
+builder.Services.AddScoped<ISP_Call, SP_Call>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

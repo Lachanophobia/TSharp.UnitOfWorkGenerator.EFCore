@@ -1,123 +1,10 @@
-﻿namespace TSharp.UnitOfWorkGenerator.Core.Templates
+﻿using TSharp.UnitOfWorkGenerator.Core.Models;
+
+namespace TSharp.UnitOfWorkGenerator.Core.Templates
 {
-    internal class UoWTemplate
+    internal static partial class BuildTemplate
     {
-        private string UsingStatements { get; set; }
-        private string Namespace { get; set; }
-        private string IRepoName { get; set; }
-        private string RepoName { get; set; }
-        private string Entity { get; set; }
-        private string DBContextName { get; set; }
-        private string Properties { get; set; }
-        private string Parameters { get; set; }
-        private string Constructor { get; set; }
-
-        public UoWTemplate WithProperties(string properties)
-        {
-            this.Properties = properties;
-
-            return this;
-        }
-
-        public UoWTemplate WithParameters(string parameters)
-        {
-            this.Parameters = parameters;
-
-            return this;
-        }
-
-        public UoWTemplate WithConstructor(string constructor)
-        {
-            this.Constructor = constructor;
-
-            return this;
-        }
-
-        public UoWTemplate WithUsingStatements(string usingStatements)
-        {
-            this.UsingStatements = usingStatements;
-
-            return this;
-        }
-
-        public UoWTemplate WithNamespace(string @namespace)
-        {
-            this.Namespace = @namespace;
-
-            return this;
-        }
-
-        public UoWTemplate WithRepoName(string repoName)
-        {
-            this.RepoName = repoName;
-
-            return this;
-        }
-
-        public UoWTemplate WithEntity(string entity)
-        {
-            this.Entity = entity;
-
-            return this;
-        }
-
-        public UoWTemplate WithDBContextName(string dBContextName)
-        {
-            this.DBContextName = dBContextName;
-
-            return this;
-        }
-
-        public UoWTemplate WithIRepoName(string iRepoName)
-        {
-            this.IRepoName = iRepoName;
-
-            return this;
-        }
-
-        public string BuildRepoTemplate()
-        {
-            var template = @"// Auto-generated code 
-{0} 
-
-namespace {1} 
-{{
-    public partial class {2} : Repository<{3}>, {4} 
-    {{ 
-        private readonly {5} _context; 
- 
-        public {2}({5} db) : base(db) 
-        {{ 
-            _context = db; 
-        }} 
-    }}
-}}
-";
-
-            var repoTemplate = string.Format(template, this.UsingStatements, this.Namespace, this.RepoName, this.Entity, this.IRepoName, this.DBContextName);
-
-            return repoTemplate;
-        }
-
-        public string BuildIRepoTemplate()
-        {
-            var template = @"// Auto-generated code 
-{0} 
-
-namespace {1} 
-{{
-    public partial interface {2} : IRepository<{3}> 
-    {{ 
-    }} 
-}}
-";
-
-            var iRepoTemplate = string.Format(template, this.UsingStatements, this.Namespace, this.IRepoName, this.Entity);
-
-            return iRepoTemplate;
-        }
-
-        public string BuildUoWTemplate()
+        public static string BuildUoWTemplate(this Template templateUoW)
         {
             var template = @"// Auto-generated code 
 {0} 
@@ -128,38 +15,55 @@ namespace {1}
     {{ 
 {2}
 
-       public UnitOfWork 
-       ( 
+        public UnitOfWork 
+        ( 
 {3} 
-       ) 
-       {{ 
+        ) 
+        {{ 
 {4} 
-       }}  
+        }}  
+
+        public void Dispose()
+        {{
+            _db.Dispose();
+        }}
+
+        public void Save()
+        {{
+            _db.SaveChanges();
+        }}
+
+        public async Task SaveAsync()
+        {{
+            await _db.SaveChangesAsync();
+        }}
     }} 
 }}
 ";
-            var uoWTemplate = string.Format(template, this.UsingStatements, this.Namespace, this.Properties, this.Parameters, this.Constructor);
+            var uoWTemplate = string.Format(template, templateUoW.UsingStatements, templateUoW.Namespace, templateUoW.Properties, templateUoW.Parameters, templateUoW.Constructor);
 
             return uoWTemplate;
         }
 
-        public string BuildIUoWTemplate()
+        public static string BuildIUoWTemplate(this Template templateIUoW)
         {
             var template = @"// Auto-generated code 
-{0} 
-
-namespace {1} 
+namespace {0} 
 {{
-    public partial interface IUnitOfWork 
+    public partial interface IUnitOfWork : IDisposable 
     {{ 
-{2} 
+{1} 
+        void Save();
+        Task SaveAsync();
     }} 
 }}
 ";
 
-            var iUoWTemplate = string.Format(template, this.UsingStatements, this.Namespace, this.Properties);
+            var iUoWTemplate = string.Format(template, templateIUoW.Namespace, templateIUoW.Properties);
 
             return iUoWTemplate;
         }
+
+
     }
 }

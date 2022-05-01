@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TSharp.UnitOfWorkGenerator.Core.Utils;
 
-namespace TSharp.UnitOfWorkGenerator.API.Entyties;
+namespace TSharp.UnitOfWorkGenerator.API.Entities;
 public class TSharpContext : DbContext
 {
     private readonly IConfiguration _config;
 
-    public TSharpContext(IConfiguration config) :base()
+    public TSharpContext(IConfiguration config) : base()
     {
         _config = config;
     }

@@ -23,7 +23,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
         [Route("GetPosts")]
         public async Task<IActionResult> GetPosts()
         {
-            return Ok(await _unitOfWork.Post.GetAllAsync());
+            return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1));
         }
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
         [Route("GetAll")]
         public async Task<IActionResult> GetAll()
         {
-            var blogs = await _unitOfWork.Blog.GetAllAsync(includeProperties: "Posts");
+            var blogs = await _unitOfWork.Blog.GetAllAsync(includeProperties: x => x.Posts);
             return Ok(blogs);
         }
     }

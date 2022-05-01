@@ -1,6 +1,6 @@
 ﻿using TSharp.UnitOfWorkGenerator.Core.Utils;
 
-namespace TSharp.UnitOfWorkGenerator.API.Entyties;
+namespace TSharp.UnitOfWorkGenerator.API.Entities;
 [GenerateRepository]
 public class Post
 {

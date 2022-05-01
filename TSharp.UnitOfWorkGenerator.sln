@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSharp.UnitOfWorkGenerator.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSharp.UnitOfWorkGenerator.Core.Utils", "TSharp.UnitOfWorkGenerator.Core.Utils\TSharp.UnitOfWorkGenerator.Core.Utils.csproj", "{EF3FA47C-8FF7-48CD-BEBF-99D29D2B6111}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSharp.UnitOfWorkGenerator.Samples", "TSharp.UnitOfWorkGenerator.Samples\TSharp.UnitOfWorkGenerator.Samples.csproj", "{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EF3FA47C-8FF7-48CD-BEBF-99D29D2B6111}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF3FA47C-8FF7-48CD-BEBF-99D29D2B6111}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF3FA47C-8FF7-48CD-BEBF-99D29D2B6111}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

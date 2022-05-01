@@ -29,7 +29,6 @@ namespace TSharp.UnitOfWorkGenerator.Core
         {
             var syntaxTrees = context.Compilation.SyntaxTrees;
             var genRepoNamesList = new List<GeneratedRepoNames>();
-            var generatedUoWInfo = new GeneratedUoWInfo();
 
             var reposToBeAdded = syntaxTrees
                 .SelectMany(syntaxTree => syntaxTree.GetRoot().DescendantNodes())
@@ -42,6 +41,11 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             var settingsAsJson = context.AdditionalFiles.FirstOrDefault().GetText().ToString();
             var settings = JsonConvert.DeserializeObject<AppSettings>(settingsAsJson).UoWSourceGenerator;
+
+            GenerateBaseIRepo(settings, context);
+            GenerateBaseRepo(settings, context);
+            GenerateISP_Call(settings, context);
+            GenerateSP_Call(settings, context);
 
             foreach (var repo in reposToBeAdded)
             {
@@ -60,39 +64,93 @@ namespace TSharp.UnitOfWorkGenerator.Core
                 GenerateRepo(genRepoNames, settings, context);
             }
 
-            generatedUoWInfo = GetGeneratedUoWInfo(genRepoNamesList);
+            var generatedUoWInfo = GetGeneratedUoWInfo(genRepoNamesList, settings);
 
             GenerateIUoW(generatedUoWInfo, settings, context);
             GenerateUoW(generatedUoWInfo, settings, context);
         }
 
         #region Generate Source Code
+
+        private void GenerateISP_Call(UoWSourceGenerator settings, GeneratorExecutionContext context)
+        {
+            var template = new Template()
+            {
+                Namespace = settings.IRepoNamespace
+            }.BuildISP_CallTemplate();
+
+            context.AddSource("ISP_Call.g.cs", template);
+        }
+
+        private void GenerateSP_Call(UoWSourceGenerator settings, GeneratorExecutionContext context)
+        {
+            var defaultUsings =
+                $"using {settings.DBEntitiesNamespace}; \n" +
+                $"using {settings.IRepoNamespace};";
+
+            var template = new Template()
+            {
+                UsingStatements = defaultUsings,
+                Namespace = settings.RepoNamespace,
+                DBContextName = settings.DBContextName,
+            }.BuildSP_CallTemplate();
+
+            context.AddSource("SP_Call.g.cs", template);
+        }
+
+        private void GenerateBaseRepo(UoWSourceGenerator settings, GeneratorExecutionContext context)
+        {
+            var defaultUsings = 
+                $"using {settings.DBEntitiesNamespace}; \n" +
+                $"using {settings.IRepoNamespace};";
+
+            var template = new Template()
+            {
+                UsingStatements = defaultUsings,
+                Namespace = settings.RepoNamespace,
+                DBContextName = settings.DBContextName,
+                IdentityColumn = settings.EnableGuidIdentityColumn ? "Guid" : "int"
+            }.BuildBaseRepoTemplate();
+
+            context.AddSource($"Repository.g.cs", template);
+        }
+
+        private void GenerateBaseIRepo(UoWSourceGenerator settings, GeneratorExecutionContext context)
+        {
+            var template = new Template()
+            {
+                Namespace = settings.IRepoNamespace,
+                IdentityColumn = settings.EnableGuidIdentityColumn ? "Guid" : "int"
+            }.BuildIBaseRepoTemplate();
+
+            context.AddSource($"IRepository.g.cs", template);
+        }
+
         private void GenerateUoW(GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
         {
             var defaultUsings =
-                $"using {settings.IRepoNamespace};";
+                $"using {settings.IRepoNamespace}; \n" +
+                $"using {settings.DBEntitiesNamespace};";
 
-            var template = new UoWTemplate()
-                .WithUsingStatements(defaultUsings)
-                .WithNamespace(settings.RepoNamespace)
-                .WithProperties(generatedInfo.UoW_Properties)
-                .WithParameters(generatedInfo.UoW_Parameters)
-                .WithConstructor(generatedInfo.UoW_Constructor)
-                .BuildUoWTemplate();
+            var template = new Template()
+            {
+                UsingStatements = defaultUsings,
+                Namespace = settings.RepoNamespace,
+                Properties = generatedInfo.UoW_Properties,
+                Parameters = generatedInfo.UoW_Parameters,
+                Constructor = generatedInfo.UoW_Constructor
+            }.BuildUoWTemplate();
 
             context.AddSource($"UnitOfWork.g.cs", template);
         }
 
         private void GenerateIUoW(GeneratedUoWInfo generatedInfo, UoWSourceGenerator settings, GeneratorExecutionContext context)
         {
-            var defaultUsings =
-                $"using {settings.IRepoNamespace};";
-
-            var template = new UoWTemplate()
-                .WithUsingStatements(defaultUsings)
-                .WithNamespace(settings.IRepoNamespace)
-                .WithProperties(generatedInfo.IUoW_Properties)
-                .BuildIUoWTemplate();
+            var template = new Template()
+            {
+                Namespace = settings.IRepoNamespace,
+                Properties = generatedInfo.IUoW_Properties,
+            }.BuildIUoWTemplate();
 
             context.AddSource($"IUnitOfWork.g.cs", template);
         }
@@ -103,14 +161,15 @@ namespace TSharp.UnitOfWorkGenerator.Core
                $"using {settings.DBEntitiesNamespace}; \n" +
                $"using {settings.IRepoNamespace};";
 
-            var template = new UoWTemplate()
-                .WithUsingStatements(defaultUsings)
-                .WithNamespace(settings.RepoNamespace)
-                .WithRepoName(genRepoNames.RepoName)
-                .WithEntity(genRepoNames.Entity)
-                .WithIRepoName(genRepoNames.IRepoName)
-                .WithDBContextName(settings.DBContextName)
-                .BuildRepoTemplate();
+            var template = new Template()
+            {
+                UsingStatements = defaultUsings,
+                Namespace = settings.RepoNamespace,
+                RepoName = genRepoNames.RepoName,
+                Entity = genRepoNames.Entity,
+                IRepoName = genRepoNames.IRepoName,
+                DBContextName = settings.DBContextName
+            }.BuildRepoTemplate();
 
             context.AddSource($"{genRepoNames.RepoName}.g.cs", template);
         }
@@ -120,12 +179,13 @@ namespace TSharp.UnitOfWorkGenerator.Core
             var defaultUsings =
               $"using {settings.DBEntitiesNamespace};";
 
-            var template = new UoWTemplate()
-                .WithUsingStatements(defaultUsings)
-                .WithNamespace(settings.IRepoNamespace)
-                .WithEntity(genRepoNames.Entity)
-                .WithIRepoName(genRepoNames.IRepoName)
-                .BuildIRepoTemplate();
+            var template = new Template()
+            {
+                UsingStatements = defaultUsings,
+                Namespace = settings.IRepoNamespace,
+                Entity = genRepoNames.Entity,
+                IRepoName = genRepoNames.IRepoName,
+            }.BuildIRepoTemplate();
 
             context.AddSource($"{genRepoNames.IRepoName}.g.cs", template);
         }
@@ -133,7 +193,7 @@ namespace TSharp.UnitOfWorkGenerator.Core
         #endregion
 
         #region Helper Methods
-        private static GeneratedUoWInfo GetGeneratedUoWInfo(List<GeneratedRepoNames> genRepoNames)
+        private static GeneratedUoWInfo GetGeneratedUoWInfo(List<GeneratedRepoNames> genRepoNames, UoWSourceGenerator settings)
         {
             var UoW_constractor = new StringBuilder();
             var UoW_Parameters = new StringBuilder();
@@ -142,14 +202,27 @@ namespace TSharp.UnitOfWorkGenerator.Core
 
             var generatedInfo = new GeneratedUoWInfo();
 
+            //Adding private property for the dbContext
+            UoW_Properties.Append($"        private readonly {settings.DBContextName} _db; \n");
+            UoW_Parameters.Append($"            {settings.DBContextName} db, \n");
+            UoW_constractor.Append("            _db = db; \n");
+
+            if (settings.EnableISP_Call)
+            {
+                UoW_Properties.Append("        public ISP_Call SP_Call { get; private set; } \n");
+                UoW_Parameters.Append("            ISP_Call sP_Call, \n");
+                UoW_constractor.Append("            SP_Call = sP_Call; \n");
+                IUoW_Properties.Append("        ISP_Call SP_Call { get; } \n");
+            }
+
             for (int i = 0; i < genRepoNames.Count; i++)
             {
                 var isLast = i + 1 == genRepoNames.Count;
 
-                UoW_constractor.Append($"           {genRepoNames[i].Entity} = {genRepoNames[i].RepoName}; {(!isLast ? "\n" : string.Empty)}");
-                UoW_Parameters.Append($"           {genRepoNames[i].IRepoName} {genRepoNames[i].RepoName}{(!isLast ? ",\n" : string.Empty)}");
-                UoW_Properties.Append($"       public {genRepoNames[i].IRepoName} {genRepoNames[i].Entity} " + $"{{get; private set;}} {(!isLast ? "\n" : string.Empty)}");
-                IUoW_Properties.Append($"         {genRepoNames[i].IRepoName} {genRepoNames[i].Entity} " + $"{{get; }}{(!isLast ? "\n" : string.Empty)}");
+                UoW_constractor.Append($"            {genRepoNames[i].Entity} = {genRepoNames[i].RepoName}; {(!isLast ? "\n" : string.Empty)}");
+                UoW_Parameters.Append($"            {genRepoNames[i].IRepoName} {genRepoNames[i].RepoName}{(!isLast ? ",\n" : string.Empty)}");
+                UoW_Properties.Append($"        public {genRepoNames[i].IRepoName} {genRepoNames[i].Entity} " + $"{{get; private set;}} {(!isLast ? "\n" : string.Empty)}");
+                IUoW_Properties.Append($"        {genRepoNames[i].IRepoName} {genRepoNames[i].Entity} " + $"{{get; }}{(!isLast ? "\n" : string.Empty)}");
             }
 
             generatedInfo.UoW_Constructor = UoW_constractor.ToString();

@@ -14,3 +14,7 @@ TSharp.UnitOfWorkGenerator.Core.Utils/bin/
 TSharp.UnitOfWorkGenerator.Core.Utils/obj/
 
 .idea/
+
+TSharp.UnitOfWorkGenerator.Samples/bin/
+
+TSharp.UnitOfWorkGenerator.Samples/obj/

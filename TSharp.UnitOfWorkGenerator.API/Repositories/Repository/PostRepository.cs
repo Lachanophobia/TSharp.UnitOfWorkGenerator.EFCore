@@ -1,4 +1,4 @@
-﻿using TSharp.UnitOfWorkGenerator.API.Entyties;
+﻿using TSharp.UnitOfWorkGenerator.API.Entities;
 using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
@@ -18,5 +18,6 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
 
             return posts;
         }
+
     }
 }

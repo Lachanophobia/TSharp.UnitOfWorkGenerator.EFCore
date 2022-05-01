@@ -11,5 +11,7 @@
         public string RepoNamespace { get; set; }
         public string DBEntitiesNamespace { get; set; }
         public string DBContextName { get; set; }
+        public bool EnableISP_Call { get; set; }
+        public bool EnableGuidIdentityColumn { get; set; }
     }
 }
