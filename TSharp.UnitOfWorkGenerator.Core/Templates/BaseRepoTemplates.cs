@@ -11,7 +11,7 @@ namespace TSharp.UnitOfWorkGenerator.Core.Templates
     {
         public static string BuildBaseRepoTemplate(this Template templateBaseRepo)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 {0}
@@ -234,7 +234,7 @@ public partial class Repository<T> : IRepository<T> where T : class
 
         public static string BuildIBaseRepoTemplate(this Template templateBaseIRepo)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 using System.Linq.Expressions;
 
 namespace {0}

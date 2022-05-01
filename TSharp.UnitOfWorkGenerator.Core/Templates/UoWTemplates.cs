@@ -6,7 +6,7 @@ namespace TSharp.UnitOfWorkGenerator.Core.Templates
     {
         public static string BuildUoWTemplate(this Template templateUoW)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 {0} 
 
 namespace {1} 
@@ -47,7 +47,7 @@ namespace {1}
 
         public static string BuildIUoWTemplate(this Template templateIUoW)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 namespace {0} 
 {{
     public partial interface IUnitOfWork : IDisposable 

@@ -6,7 +6,7 @@ namespace TSharp.UnitOfWorkGenerator.Core.Templates
     {
         public static string BuildISP_CallTemplate(this Template templateISP_Call)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 using Dapper;
 using System.Data;
 
@@ -144,7 +144,7 @@ namespace {0}
 
         public static string BuildSP_CallTemplate(this Template templateSP_Call)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;

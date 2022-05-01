@@ -6,7 +6,7 @@ namespace TSharp.UnitOfWorkGenerator.Core.Templates
     {
         public static string BuildRepoTemplate(this Template templateRepo)
         {
-            var template = @"// Auto-generated code 
+            var template = @"// Auto-generated code
 {0} 
 
 namespace {1} 
