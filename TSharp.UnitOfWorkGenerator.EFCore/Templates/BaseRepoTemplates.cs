@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSharp.UnitOfWorkGenerator.EFCore.Models;
+﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {

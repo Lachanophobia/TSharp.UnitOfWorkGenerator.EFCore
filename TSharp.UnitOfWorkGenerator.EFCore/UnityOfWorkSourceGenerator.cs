@@ -26,6 +26,8 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
         public void Execute(GeneratorExecutionContext context)
         {
+            Diagnostics.CheckedForEntityFrameworkCoreDependency(context);
+
             var syntaxTrees = context.Compilation.SyntaxTrees;
 
             var reposToBeAdded = syntaxTrees
@@ -37,8 +39,10 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
             //var reposUsingDirectives = reposToBeAdded.SelectMany(x => x.SyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>()).Select(x => x.ToString()).Distinct();
 
+            var (settings, file) = GetAppSettings(context);
 
-            var settings = GetAppSettings(context);
+            Diagnostics.ValidateAppSettings(context, settings, file);
+            Diagnostics.CheckedForDapperDependency(context, settings);
 
             GenerateBaseIRepo(settings, context);
             GenerateBaseRepo(settings, context);
@@ -76,8 +80,6 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             GenerateIUoW(generatedUoWInfo, settings, context);
             GenerateUoW(generatedUoWInfo, settings, context);
         }
-
-
 
         #region Generate Source Code
 
@@ -237,73 +239,18 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             };
         }
 
-        private UoWSourceGenerator GetAppSettings(GeneratorExecutionContext context)
+        private Tuple<UoWSourceGenerator, AdditionalText> GetAppSettings(GeneratorExecutionContext context)
         {
             var file = context.AdditionalFiles.FirstOrDefault(x => x.Path.Contains("appsettings.json"));
 
-            var appSettingsFileMissing = new DiagnosticDescriptor(id: "UoW001",
-                title: "Could not get appsetting.json",
-                messageFormat: "Could not get appsettings.Json '{0}'.",
-                category: "UoWGenerator",
-                DiagnosticSeverity.Error,
-                isEnabledByDefault: true);
-
-            if (file == null)
-                context.ReportDiagnostic(Diagnostic.Create(appSettingsFileMissing, Location.None));
+            Diagnostics.CheckForAppSettingsExistence(context, file);
 
             var settingsAsJson = file.GetText().ToString();
-            var setting = JsonConvert.DeserializeObject<AppSettings>(settingsAsJson).UoWSourceGenerator;
+            var settings = JsonConvert.DeserializeObject<AppSettings>(settingsAsJson).UoWSourceGenerator;
 
-            if (string.IsNullOrWhiteSpace(setting.RepoNamespace))
-            {
-                var error = new DiagnosticDescriptor(id: "UoW002",
-                    title: "Could not getIRepositories Namespace",
-                    messageFormat: "Could not get Repositories Namespace, please check your appsettings.Json '{0}'.",
-                    category: "UoWGenerator",
-                    DiagnosticSeverity.Error,
-                    isEnabledByDefault: true);
-
-                context.ReportDiagnostic(Diagnostic.Create(error, Location.None, file.Path));
-            }
-
-            if (string.IsNullOrWhiteSpace(setting.IRepoNamespace))
-            {
-                var error = new DiagnosticDescriptor(id: "UoW003",
-                    title: "Could not get IRepositories Namespace",
-                    messageFormat: "Could not get IRepositories Namespace, please check your appsettings.Json '{0}'.",
-                    category: "UoWGenerator",
-                    DiagnosticSeverity.Error,
-                    isEnabledByDefault: true);
-
-                context.ReportDiagnostic(Diagnostic.Create(error, Location.None, file.Path));
-            }
-
-            if (string.IsNullOrWhiteSpace(setting.DBEntitiesNamespace))
-            {
-                var error = new DiagnosticDescriptor(id: "UoW004",
-                    title: "Could not get DBEntities Namespace",
-                    messageFormat: "Could not get DBEntities Namespace, please check your appsettings.Json '{0}'.",
-                    category: "UoWGenerator",
-                    DiagnosticSeverity.Error,
-                    isEnabledByDefault: true);
-
-                context.ReportDiagnostic(Diagnostic.Create(error, Location.None, file.Path));
-            }
-
-            if (string.IsNullOrWhiteSpace(setting.DBContextName))
-            {
-                var error = new DiagnosticDescriptor(id: "UoW005",
-                    title: "Could not get DBContext Name",
-                    messageFormat: "Could not get DBContext Name, please check your appsettings.Json '{0}'.",
-                    category: "UoWGenerator",
-                    DiagnosticSeverity.Error,
-                    isEnabledByDefault: true);
-
-                context.ReportDiagnostic(Diagnostic.Create(error, Location.None, file.Path));
-            }
-
-            return setting;
+            return new Tuple<UoWSourceGenerator, AdditionalText>(settings, file);
         }
+
         #endregion
     }
 }
