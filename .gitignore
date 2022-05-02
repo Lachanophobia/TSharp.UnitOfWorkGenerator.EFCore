@@ -5,13 +5,13 @@ TSharp.UnitOfWorkGenerator.API/obj/
 
 .vs/
 
-TSharp.UnitOfWorkGenerator.Core/bin/
+TSharp.UnitOfWorkGenerator.EFCore/bin/
 
-TSharp.UnitOfWorkGenerator.Core/obj/
+TSharp.UnitOfWorkGenerator.EFCore/obj/
 
-TSharp.UnitOfWorkGenerator.Core.Utils/bin/
+TSharp.UnitOfWorkGenerator.EFCore.Utils/bin/
 
-TSharp.UnitOfWorkGenerator.Core.Utils/obj/
+TSharp.UnitOfWorkGenerator.EFCore.Utils/obj/
 
 .idea/
 

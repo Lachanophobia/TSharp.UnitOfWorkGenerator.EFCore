@@ -1,4 +1,4 @@
-﻿namespace TSharp.UnitOfWorkGenerator.Core.Models
+﻿namespace TSharp.UnitOfWorkGenerator.EFCore.Models
 {
     internal class AppSettings
     {

@@ -5,10 +5,10 @@ using System.Diagnostics;
 using Newtonsoft.Json;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using TSharp.UnitOfWorkGenerator.Core.Models;
-using TSharp.UnitOfWorkGenerator.Core.Templates;
+using TSharp.UnitOfWorkGenerator.EFCore.Templates;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
-namespace TSharp.UnitOfWorkGenerator.Core
+namespace TSharp.UnitOfWorkGenerator.EFCore
 {
     [Generator]
     public partial class UnityOfWorkSourceGenerator : ISourceGenerator

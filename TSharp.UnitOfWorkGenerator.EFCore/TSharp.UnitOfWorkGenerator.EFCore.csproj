@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -20,22 +20,24 @@
  <PropertyGroup>
     <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
     <Authors>Thomas Kassos</Authors>
-    <Description>A source generator for EF. Generates Repositories and UnitOfWork files</Description>
-    <PackageProjectUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator</RepositoryUrl>
+      <Description>A source generator for EF. Generates Repositories and UnitOfWork files</Description>
+    <PackageProjectUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>SourceGenerator;Generator;Repository;RepositoryPattern;UnitOfWork</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
     <FileVersion>0.0.1</FileVersion>
-    <Version>$(VersionPrefix)-alpha</Version>
+    <Version>$(VersionPrefix)</Version>
   </PropertyGroup>
 
   <Target Name="GetDependencyTargetPaths">
     <ItemGroup>
       <TargetPathWithTargetPlatformMoniker Include="$(PKGNewtonsoft_Json)\lib\netstandard2.0\Newtonsoft.Json.dll" IncludeRuntimeDependency="false" />
+
     </ItemGroup>
   </Target>
+
 
     <ItemGroup>
     <!-- Package the generator in the analyzer directory of the nuget package -->

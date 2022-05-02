@@ -1,7 +1,8 @@
-﻿using TSharp.UnitOfWorkGenerator.Core.Models;
+﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
-namespace TSharp.UnitOfWorkGenerator.Core.Templates
+namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
+
     internal static partial class BuildTemplate
     {
         public static string BuildRepoTemplate(this Template templateRepo)

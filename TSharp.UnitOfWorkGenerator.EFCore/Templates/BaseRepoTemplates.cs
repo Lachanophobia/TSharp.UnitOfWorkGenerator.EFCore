@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TSharp.UnitOfWorkGenerator.Core.Models;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
-namespace TSharp.UnitOfWorkGenerator.Core.Templates
+namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
     internal static partial class BuildTemplate
     {

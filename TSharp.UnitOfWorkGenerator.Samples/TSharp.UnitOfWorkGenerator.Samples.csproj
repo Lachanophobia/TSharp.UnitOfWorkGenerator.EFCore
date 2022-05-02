@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TSharp.UnitOfWorkGenerator.Core.Utils\TSharp.UnitOfWorkGenerator.Core.Utils.csproj" />
+    <ProjectReference Include="..\TSharp.UnitOfWorkGenerator.Core.Utils\TSharp.UnitOfWorkGenerator.EFCore.Utils.csproj" />
   </ItemGroup>
 
 </Project>
