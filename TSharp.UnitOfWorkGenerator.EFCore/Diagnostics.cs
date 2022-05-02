@@ -58,9 +58,9 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             }
         }
 
-        internal static void CheckedForEntityFrameworkCoreDependency(GeneratorExecutionContext context)
+        internal static void CheckedForEntityFrameworkCoreDependency(Compilation compilation,  SourceProductionContext context)
         {
-            if (!context.Compilation.ReferencedAssemblyNames.Any(ai => ai.Name.Equals("Microsoft.EntityFrameworkCore", StringComparison.OrdinalIgnoreCase)))
+            if (!compilation.ReferencedAssemblyNames.Any(ai => ai.Name.Equals("Microsoft.EntityFrameworkCore", StringComparison.OrdinalIgnoreCase)))
             {
                 var error = new DiagnosticDescriptor(id: "UoW005",
                     title: "Could not find assembly Microsoft.EntityFrameworkCore",
