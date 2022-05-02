@@ -1,1 +1,2 @@
-# UnitOfWorkGenerator
+# UnitOfWorkGenerator - Repository Pattern Made easy!
+
