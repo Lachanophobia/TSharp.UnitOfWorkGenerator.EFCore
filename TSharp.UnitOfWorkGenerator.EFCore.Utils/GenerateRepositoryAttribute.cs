@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TSharp.UnitOfWorkGenerator.Core.Utils
+namespace TSharp.UnitOfWorkGenerator.EFCore.Utils
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class GenerateRepository : Attribute

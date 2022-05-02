@@ -5,9 +5,9 @@ using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore
 {
-    public static class Diagnostics
+    internal static class Diagnostics
     {
-        private static void ValidateAppSettings(GeneratorExecutionContext context, UoWSourceGenerator settings, AdditionalText file)
+        internal static void ValidateAppSettings(GeneratorExecutionContext context, UoWSourceGenerator settings, AdditionalText file)
         {
             if (string.IsNullOrWhiteSpace(settings.RepoNamespace))
             {
@@ -58,7 +58,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             }
         }
 
-        private static void CheckedForEntityFrameworkCoreDependency(GeneratorExecutionContext context)
+        internal static void CheckedForEntityFrameworkCoreDependency(GeneratorExecutionContext context)
         {
             if (!context.Compilation.ReferencedAssemblyNames.Any(ai => ai.Name.Equals("Microsoft.EntityFrameworkCore", StringComparison.OrdinalIgnoreCase)))
             {
@@ -73,7 +73,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             }
         }
 
-        private static void CheckedForDapperDependency(GeneratorExecutionContext context, UoWSourceGenerator settings)
+        internal static void CheckedForDapperDependency(GeneratorExecutionContext context, UoWSourceGenerator settings)
         {
             if (settings.EnableISP_Call && !context.Compilation.ReferencedAssemblyNames.Any(ai => ai.Name.Equals("Dapper", StringComparison.OrdinalIgnoreCase)))
             {
@@ -86,6 +86,19 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
                 context.ReportDiagnostic(Diagnostic.Create(error, Location.None));
             }
+        }
+
+        internal static void CheckForAppSettingsExistence(GeneratorExecutionContext context, AdditionalText file)
+        {
+            var appSettingsFileMissing = new DiagnosticDescriptor(id: "UoW001",
+                title: "Could not get appsetting.json",
+                messageFormat: "Could not get appsettings.Json.",
+                category: "UoWGenerator",
+                DiagnosticSeverity.Error,
+                isEnabledByDefault: true);
+
+            if (file == null)
+                context.ReportDiagnostic(Diagnostic.Create(appSettingsFileMissing, Location.None));
         }
     }
 }
