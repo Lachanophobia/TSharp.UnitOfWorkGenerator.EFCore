@@ -75,6 +75,7 @@ Just add this attribute `[GenerateRepository]` to an entity
             .AddClasses(classes => classes.AssignableTo<IRepository>()) // **Here leave the IRepository**
             .AsImplementedInterfaces()
             .WithScopedLifetime());
+	    
         builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 ```
