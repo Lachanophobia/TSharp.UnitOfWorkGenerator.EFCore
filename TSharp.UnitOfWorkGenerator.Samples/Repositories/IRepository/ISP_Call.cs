@@ -25,7 +25,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
         /// <param name="connection"></param>
         /// <param name="transaction"></param>
         /// <param name="commandTimeout"></param>
-        Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Execute parameterized SQL.
@@ -49,7 +49,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
         /// <param name="transaction"></param>
         /// <param name="commandTimeout"></param>
         /// <returns>IEnumerable of <typeparamref name="T"/></returns>
-        Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  Execute a command that returns multiple result sets, and access each in turn.
@@ -75,7 +75,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
         /// <param name="transaction"></param>
         /// <param name="commandTimeout"></param>
         /// <returns>Tuple IEnumerable <typeparamref name="T1"/> and IEnumerable <typeparamref name="T2"/></returns>
-        Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes a query
@@ -99,7 +99,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
         /// <param name="transaction"></param>
         /// <param name="commandTimeout"></param>
         /// <returns>One record of type <typeparamref name="T"/></returns>
-        Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.

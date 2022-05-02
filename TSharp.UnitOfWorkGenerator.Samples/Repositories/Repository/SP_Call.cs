@@ -27,12 +27,12 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
         #region asynchronous methods
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            await dbConnection.ExecuteAsync(procedureName, param, transaction: transaction, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure);
+            await dbConnection.ExecuteAsync(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
 
             if (connection == null)
             {
@@ -42,12 +42,14 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = await dbConnection.QueryAsync<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var result = await dbConnection
+                .QueryAsync<T>(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
+
 
             if (connection == null)
             {
@@ -59,12 +61,12 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = await connection.QueryMultipleAsync(procedureName, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var result = await connection.QueryMultipleAsync(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
             var item1 = (await result.ReadAsync<T1>()).ToList();
             var item2 = (await result.ReadAsync<T2>()).ToList();
 
@@ -83,12 +85,12 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
         }
 
         /// <inheritdoc/>
-        public async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var value = dbConnection.Query<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var value = dbConnection.Query<T>(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
             var result = (T)Convert.ChangeType(value.FirstOrDefault(), typeof(T));
 
             if (connection == null)

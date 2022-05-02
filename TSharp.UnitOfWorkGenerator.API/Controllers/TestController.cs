@@ -19,23 +19,23 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
 
         [HttpGet]
         [Route("GetPosts")]
-        public async Task<IActionResult> GetPosts()
+        public async Task<IActionResult> GetPosts(CancellationToken cancellationToken)
         {
-            return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1));
+            return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1, cancellationToken));
         }
 
         [HttpGet]
         [Route("GetPostsFromPartialClass")]
-        public async Task<IActionResult> GetPostsFromPartialClass()
+        public async Task<IActionResult> GetPostsFromPartialClass(CancellationToken cancellationToken)
         {
-            return Ok(await _unitOfWork.Post.GetPostsFromPartialClass());
+            return Ok(await _unitOfWork.Post.GetPostsFromPartialClass(cancellationToken));
         }
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
-            var blogs = await _unitOfWork.Blog.GetAllAsync(includeProperties: x => x.Posts);
+            var blogs = await _unitOfWork.Blog.GetAllAsync(cancellationToken: cancellationToken,includeProperties: x => x.Posts);
             return Ok(blogs);
         }
     }

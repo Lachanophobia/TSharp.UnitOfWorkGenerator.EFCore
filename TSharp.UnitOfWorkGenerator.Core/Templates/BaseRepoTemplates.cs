@@ -31,19 +31,26 @@ public partial class Repository<T> : IRepository<T> where T : class
 
     #region asynchronous methods
 
-    public virtual async Task AddAsync(T entity)
+    /// <inheritdoc/>
+    public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {{
-        await dbSet.AddAsync(entity);
+        await dbSet.AddAsync(entity, cancellationToken);
     }}
 
     /// <inheritdoc/>
-    public virtual async Task<T> GetAsync({3} id)
+    public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {{
-        return await dbSet.FindAsync(id);
+        await dbSet.AddRangeAsync(entities, cancellationToken);
     }}
 
     /// <inheritdoc/>
-    public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, params Expression<Func<T, object>>[] includeProperties)
+    public virtual async Task<T> GetAsync({3} id, CancellationToken cancellationToken = default)
+    {{
+        return await dbSet.FindAsync(id, cancellationToken);
+    }}
+
+    /// <inheritdoc/>
+    public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
     {{
         IQueryable<T> query = dbSet;
 
@@ -64,14 +71,14 @@ public partial class Repository<T> : IRepository<T> where T : class
 
         if (orderBy != null)
         {{
-            return await query.OrderBy(orderBy).ToListAsync();
+            return await query.OrderBy(orderBy).ToListAsync(cancellationToken);
         }}
 
-        return await query.ToListAsync();
+        return await query.ToListAsync(cancellationToken);
     }}
 
     /// <inheritdoc/>
-    public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties)
+    public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
     {{
         IQueryable<T> query = dbSet;
 
@@ -90,7 +97,7 @@ public partial class Repository<T> : IRepository<T> where T : class
             }}
         }}
 
-        return await query.FirstOrDefaultAsync();
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }}
 
     /// <inheritdoc/>
@@ -106,10 +113,10 @@ public partial class Repository<T> : IRepository<T> where T : class
     }}
 
     /// <inheritdoc/>
-    public virtual async Task RemoveAsync({3} id)
+    public virtual async Task RemoveAsync({3} id, CancellationToken cancellationToken = default)
     {{
-        T entity = await dbSet.FindAsync(id);
-        await RemoveAsync(entity);
+        T entity = await dbSet.FindAsync(id, cancellationToken);
+        dbSet.Remove(entity);
     }}
 
     /// <inheritdoc/>
@@ -192,6 +199,12 @@ public partial class Repository<T> : IRepository<T> where T : class
     }}
 
     /// <inheritdoc/>
+    public virtual void AddRange(IEnumerable<T> entities)
+    {{
+        dbSet.AddRange(entities);
+    }}
+
+    /// <inheritdoc/>
     public virtual void Update(T entity)
     {{
         dbSet.Update(entity);
@@ -224,6 +237,7 @@ public partial class Repository<T> : IRepository<T> where T : class
 
     #endregion
 }}
+
 ";
 
             var baseRepoTemplate = string.Format(template, templateBaseRepo.UsingStatements, templateBaseRepo.Namespace, templateBaseRepo.DBContextName, templateBaseRepo.IdentityColumn);
@@ -243,7 +257,7 @@ namespace {0}
     {{
     }}
 
-    public interface IRepository<T> : IRepository where T : class
+    public partial interface IRepository<T> : IRepository where T : class
     {{
         #region asynchronous methods
 
@@ -253,7 +267,7 @@ namespace {0}
         /// <typeparam name=""T"">The type to return</typeparam>
         /// <param name=""id""></param>
         /// <returns><typeparamref name=""T""/></returns>
-        Task<T> GetAsync({1} id);
+        Task<T> GetAsync({1} id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets all entities as IEnumerable of <typeparamref name=""T""/>
@@ -264,7 +278,7 @@ namespace {0}
         /// <param name=""includeProperties"">Specifies related entities to include in the query results. The navigation property 
         /// to be included is specified starting with the type of entity being queried (<typeparamref name=""T""/>)</param>
         /// <returns>IEnumerable of <typeparamref name=""T""/></returns>
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, params Expression<Func<T, object>>[] includeProperties);
+        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties);
 
         /// <summary>
         /// Gets the first or default
@@ -274,14 +288,22 @@ namespace {0}
         /// <param name=""includeProperties"">Specifies related entities to include in the query results. The navigation property 
         /// to be included is specified starting with the type of entity being queried (<typeparamref name=""T""/>)</param>
         /// <returns><typeparamref name=""T""/></returns>
-        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties);
+        Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties);
 
         /// <summary>
         /// Adds a new entity to database
         /// </summary>
         /// <typeparam name=""T"">The type of the entity to add</typeparam>
         /// <param name=""entity""></param>
-        Task AddAsync(T entity);
+        Task AddAsync(T entity, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Begins tracking the given entities, and any other reachable entities that are
+        /// not already being tracked, in the EntityState.Added"" state such that they will
+        /// be inserted into the database when DbContext.SaveChanges() is called.
+        /// </summary>
+        /// <param name=""entities""></param>
+        Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates the entity
@@ -301,7 +323,7 @@ namespace {0}
         /// Deletes the entity by its id
         /// </summary>
         /// <param name=""id""></param>
-        Task RemoveAsync({1} id);
+        Task RemoveAsync({1} id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes the entity
@@ -390,6 +412,14 @@ namespace {0}
         /// <typeparam name=""T"">The type of the IEnumerable entities to delete</typeparam>
         /// <param name=""entity""></param>
         void RemoveRange(IEnumerable<T> entity);
+
+        /// <summary>
+        /// Begins tracking the given entities, and any other reachable entities that are
+        /// not already being tracked, in the EntityState.Added state such that they will
+        /// be inserted into the database when DbContext.SaveChanges() is called.
+        /// </summary>
+        /// <param name=""entities""></param>
+        void AddRange(IEnumerable<T> entities);
 
         #endregion
     }}

@@ -34,7 +34,7 @@ namespace {0}
         /// <param name=""connection""></param>
         /// <param name=""transaction""></param>
         /// <param name=""commandTimeout""></param>
-        Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Execute parameterized SQL.
@@ -58,7 +58,7 @@ namespace {0}
         /// <param name=""transaction""></param>
         /// <param name=""commandTimeout""></param>
         /// <returns>IEnumerable of <typeparamref name=""T""/></returns>
-        Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         ///  Execute a command that returns multiple result sets, and access each in turn.
@@ -84,7 +84,7 @@ namespace {0}
         /// <param name=""transaction""></param>
         /// <param name=""commandTimeout""></param>
         /// <returns>Tuple IEnumerable <typeparamref name=""T1""/> and IEnumerable <typeparamref name=""T2""/></returns>
-        Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Executes a query
@@ -108,7 +108,7 @@ namespace {0}
         /// <param name=""transaction""></param>
         /// <param name=""commandTimeout""></param>
         /// <returns>One record of type <typeparamref name=""T""/></returns>
-        Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
+        Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Execute parameterized SQL that selects a single value.
@@ -153,7 +153,7 @@ using System.Data;
 
 namespace {1}
 {{
-    public class SP_Call : ISP_Call
+    public partial class SP_Call : ISP_Call
     {{
 
         private readonly {2} _db;
@@ -173,12 +173,12 @@ namespace {1}
         #region asynchronous methods
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            await dbConnection.ExecuteAsync(procedureName, param, transaction: transaction, commandTimeout: commandTimeout, commandType: CommandType.StoredProcedure);
+            await dbConnection.ExecuteAsync(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
 
             if (connection == null)
             {{
@@ -188,12 +188,14 @@ namespace {1}
         }}
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = await dbConnection.QueryAsync<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var result = await dbConnection
+                .QueryAsync<T>(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
+
 
             if (connection == null)
             {{
@@ -205,12 +207,12 @@ namespace {1}
         }}
 
         /// <inheritdoc/>
-        public async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = await connection.QueryMultipleAsync(procedureName, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var result = await connection.QueryMultipleAsync(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
             var item1 = (await result.ReadAsync<T1>()).ToList();
             var item2 = (await result.ReadAsync<T2>()).ToList();
 
@@ -229,12 +231,12 @@ namespace {1}
         }}
 
         /// <inheritdoc/>
-        public async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var value = dbConnection.Query<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
+            var value = dbConnection.Query<T>(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
             var result = (T)Convert.ChangeType(value.FirstOrDefault(), typeof(T));
 
             if (connection == null)
@@ -356,8 +358,11 @@ namespace {1}
             return result;
         }}
         #endregion
+
+
     }}
 }}
+
 ";
 
             var sP_CallTemplate = string.Format(template, templateSP_Call.UsingStatements, templateSP_Call.Namespace, templateSP_Call.DBContextName);

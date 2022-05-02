@@ -5,9 +5,9 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
 {
     public partial class PostRepository : Repository<Post>, IPostRepository
     {
-        public async Task<List<Post>> GetPostsFromPartialClass()
+        public async Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default)
         {
-            var posts = (await this.GetAllAsync()).ToList();
+            var posts = (await this.GetAllAsync(cancellationToken: cancellationToken)).ToList();
             posts.Add(new Post()
             {
                 BlogId = 1,

@@ -18,19 +18,26 @@ public partial class Repository<T> : IRepository<T> where T : class
 
     #region asynchronous methods
 
-    public virtual async Task AddAsync(T entity)
+    /// <inheritdoc/>
+    public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        await dbSet.AddAsync(entity);
+        await dbSet.AddAsync(entity, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<T> GetAsync(int id)
+    public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
-        return await dbSet.FindAsync(id);
+        await dbSet.AddRangeAsync(entities, cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, params Expression<Func<T, object>>[] includeProperties)
+    public virtual async Task<T> GetAsync(int id, CancellationToken cancellationToken = default)
+    {
+        return await dbSet.FindAsync(id, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
     {
         IQueryable<T> query = dbSet;
 
@@ -51,14 +58,14 @@ public partial class Repository<T> : IRepository<T> where T : class
 
         if (orderBy != null)
         {
-            return await query.OrderBy(orderBy).ToListAsync();
+            return await query.OrderBy(orderBy).ToListAsync(cancellationToken);
         }
 
-        return await query.ToListAsync();
+        return await query.ToListAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
-    public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties)
+    public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
     {
         IQueryable<T> query = dbSet;
 
@@ -77,7 +84,7 @@ public partial class Repository<T> : IRepository<T> where T : class
             }
         }
 
-        return await query.FirstOrDefaultAsync();
+        return await query.FirstOrDefaultAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -93,10 +100,10 @@ public partial class Repository<T> : IRepository<T> where T : class
     }
 
     /// <inheritdoc/>
-    public virtual async Task RemoveAsync(int id)
+    public virtual async Task RemoveAsync(int id, CancellationToken cancellationToken = default)
     {
-        T entity = await dbSet.FindAsync(id);
-        await RemoveAsync(entity);
+        T entity = await dbSet.FindAsync(id, cancellationToken);
+        dbSet.Remove(entity);
     }
 
     /// <inheritdoc/>
@@ -176,6 +183,12 @@ public partial class Repository<T> : IRepository<T> where T : class
     public virtual void Add(T entity)
     {
         dbSet.Add(entity);
+    }
+
+    /// <inheritdoc/>
+    public virtual void AddRange(IEnumerable<T> entities)
+    {
+        dbSet.AddRange(entities);
     }
 
     /// <inheritdoc/>
