@@ -1,4 +1,4 @@
-﻿using TSharp.UnitOfWorkGenerator.Core.Utils;
+﻿using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
 namespace TSharp.UnitOfWorkGenerator.API.Entities
 {
