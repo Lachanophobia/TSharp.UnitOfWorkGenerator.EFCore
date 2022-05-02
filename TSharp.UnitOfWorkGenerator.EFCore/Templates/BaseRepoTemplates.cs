@@ -1,4 +1,5 @@
-﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
+﻿using System.Text;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
@@ -6,20 +7,23 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildBaseRepoTemplate(this Template templateBaseRepo)
         {
-            var template = @"// Auto-generated code
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
-{0}
+            StringBuilder stringBuilder = new StringBuilder();
 
-namespace {1};
-
-public partial class Repository<T> : IRepository<T> where T : class
-{{
-    private readonly {2} _db;
-    internal DbSet<T> dbSet;
-
-    public Repository({2} db)
-    {{
+            stringBuilder.Append("// Auto-generated code \n");
+            stringBuilder.Append("using System.Linq.Expressions; \n");
+            stringBuilder.Append("using Microsoft.EntityFrameworkCore; \n");
+            stringBuilder.Append($"{templateBaseRepo.UsingStatements}");
+            stringBuilder.Append("\n \n");
+            stringBuilder.Append($"namespace {templateBaseRepo.Namespace}; \n");
+            stringBuilder.Append("\n \n");
+            stringBuilder.Append("public partial class Repository<T> : IRepository<T> where T : class");
+            stringBuilder.Append("{");
+            stringBuilder.Append($"    private readonly {templateBaseRepo.DBContextName} _db;");
+            stringBuilder.Append("    internal DbSet<T> dbSet;");
+            stringBuilder.Append("\n \n");
+            stringBuilder.Append($"    public Repository({templateBaseRepo.DBContextName} db)");
+            stringBuilder.Append("");
+            stringBuilder.Append(@"{
         _db = db;
         dbSet = _db.Set<T>();
     }}
@@ -39,8 +43,9 @@ public partial class Repository<T> : IRepository<T> where T : class
     }}
 
     /// <inheritdoc/>
-    public virtual async Task<T> GetAsync({3} id, CancellationToken cancellationToken = default)
-    {{
+    ");
+            stringBuilder.Append($"    public virtual async Task<T> GetAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default) \n");
+            stringBuilder.Append(@"    {
         return await dbSet.FindAsync(id, cancellationToken);
     }}
 
@@ -108,8 +113,9 @@ public partial class Repository<T> : IRepository<T> where T : class
     }}
 
     /// <inheritdoc/>
-    public virtual async Task RemoveAsync({3} id, CancellationToken cancellationToken = default)
-    {{
+    ");
+            stringBuilder.Append($"    public virtual async Task RemoveAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default) \n");
+            stringBuilder.Append(@"    {
         T entity = await dbSet.FindAsync(id, cancellationToken);
         dbSet.Remove(entity);
     }}
@@ -131,8 +137,9 @@ public partial class Repository<T> : IRepository<T> where T : class
     #region synchronous methods
 
     /// <inheritdoc/>
-    public virtual T Get({3} id)
-    {{
+    ");
+            stringBuilder.Append($"    public virtual T Get({templateBaseRepo.IdentityColumn} id) \n");
+            stringBuilder.Append(@"    {
         return dbSet.Find(id);
     }}
 
@@ -212,8 +219,9 @@ public partial class Repository<T> : IRepository<T> where T : class
     }}
 
     /// <inheritdoc/>
-    public virtual void Remove({3} id)
-    {{
+    ");
+         stringBuilder.Append($"    public virtual void Remove({templateBaseRepo.IdentityColumn} id) \n");
+         stringBuilder.Append(@"    {
         T entity = dbSet.Find(id);
         dbSet.Remove(entity);
     }}
@@ -233,11 +241,8 @@ public partial class Repository<T> : IRepository<T> where T : class
     #endregion
 }}
 
-";
-
-            var baseRepoTemplate = string.Format(template, templateBaseRepo.UsingStatements, templateBaseRepo.Namespace, templateBaseRepo.DBContextName, templateBaseRepo.IdentityColumn);
-
-            return baseRepoTemplate;
+");
+            return stringBuilder.ToString();
         }
 
 
