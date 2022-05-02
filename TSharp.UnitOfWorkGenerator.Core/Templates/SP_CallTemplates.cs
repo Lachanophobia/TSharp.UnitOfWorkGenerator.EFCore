@@ -237,7 +237,7 @@ namespace {1}
             dbConnection.Open();
 
             var value = dbConnection.Query<T>(new CommandDefinition(procedureName, param, transaction, commandTimeout, CommandType.StoredProcedure, CommandFlags.Buffered, cancellationToken));
-            var result = (T)Convert.ChangeType(value.FirstOrDefault(), typeof(T));
+            var result = value.FirstOrDefault();
 
             if (connection == null)
             {{
@@ -254,7 +254,7 @@ namespace {1}
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = (T)Convert.ChangeType(await connection.ExecuteScalarAsync<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout), typeof(T));
+            var result = await connection.ExecuteScalarAsync<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
 
             if (connection == null)
             {{
@@ -330,7 +330,7 @@ namespace {1}
             dbConnection.Open();
 
             var value = dbConnection.Query<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
-            var result = (T)Convert.ChangeType(value.FirstOrDefault(), typeof(T));
+            var result = value.FirstOrDefault();
 
             if (connection == null)
             {{
@@ -347,7 +347,7 @@ namespace {1}
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
 
-            var result = (T)Convert.ChangeType(connection.ExecuteScalar<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout), typeof(T));
+            var result = connection.ExecuteScalar<T>(procedureName, param, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
 
             if (connection == null)
             {{
