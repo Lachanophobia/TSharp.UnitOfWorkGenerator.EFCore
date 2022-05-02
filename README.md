@@ -8,7 +8,7 @@ Now you don't have to maintain large classes like the UnitOfWork every time you 
 
 - Large data bases with many tables? Hassle to maintain or create classes all the time? - Not a problem anymore!
 - Small projects where you are thinking to not apply the pattern to save time? - Not a problem anymore!
-- Worry about performance penalties when stuff are generated? - Not a problem, all are done at compilation time!
+- Worry about performance penalties when code is generated? - Not a problem, all are done at compilation time!
 
 All classes are created as **partial** classes so you have the ability to extended them.  
 
