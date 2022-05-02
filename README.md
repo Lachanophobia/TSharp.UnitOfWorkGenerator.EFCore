@@ -24,14 +24,14 @@ All classes are created as **partial** classes so you have the ability to extend
 3. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
 Into the root of your appsettings of your project add the following settings.  <br> **(Note: these settings need to exist on your main appsettings file and not into any other build configuration)**
 
-```
+```json
 	"UoWSourceGenerator": {
-		"IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
-		"RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
-		"DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
-		"DBContextName": "TSharpContext",
-		"EnableISP_Call": "True",
-		"EnableGuidIdentityColumn": "False"
+	    "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
+	    "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
+	    "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
+	    "DBContextName": "TSharpContext",
+	    "EnableISP_Call": "True",
+	    "EnableGuidIdentityColumn": "False"
 	}
 ```
 
@@ -47,8 +47,10 @@ Into the root of your appsettings of your project add the following settings.  <
 ## Generate the Repositories
 Just add this attribute `[GenerateRepository]` to an entity
 
-	using TSharp.UnitOfWorkGenerator.EFCore.Utils;
+```csharp
+    using TSharp.UnitOfWorkGenerator.EFCore.Utils;    
     namespace TSharp.UnitOfWorkGenerator.API.Entities;
+    
     [GenerateRepository]
     public class Post
     {
@@ -58,7 +60,7 @@ Just add this attribute `[GenerateRepository]` to an entity
         public int BlogId { get; set; }
         public Blog Blog { get; set; }
     }
-
+```
 
 ## Build
 
@@ -67,19 +69,21 @@ Just add this attribute `[GenerateRepository]` to an entity
 ## Dependency Injection
 4. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
-
-		builder.Services.Scan(scan => scan
+```csharp
+	builder.Services.Scan(scan => scan
             .FromAssemblyOf<PostRepository>() // **Will scan the Assembly where the PostRepository lives, just add any Repository Class**
             .AddClasses(classes => classes.AssignableTo<IRepository>()) // **Here leave the IRepository**
             .AsImplementedInterfaces()
             .WithScopedLifetime());
         builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+```
 # Exposed Methods
 ## IRepository 
 
-	using System.Linq.Expressions;
+```csharp
+    using System.Linq.Expressions;
+
     public partial interface IRepository<T> : IRepository where T : class
     {
         Task<T> GetAsync(int id, CancellationToken cancellationToken = default);
@@ -122,8 +126,10 @@ Just add this attribute `[GenerateRepository]` to an entity
 
         void AddRange(IEnumerable<T> entities);
     }
-
+```
 ## ISP_Call
+```csharp
+
     public partial interface ISP_Call : IDisposable
     {
         void Dispose();
@@ -148,8 +154,10 @@ Just add this attribute `[GenerateRepository]` to an entity
         
         Task<T> SingleAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
     }
-
+```
 ## IUnitOfWork
+
+```csharp
     public partial interface IUnitOfWork : IDisposable
     {
         IPostRepository Post { get; }
@@ -157,3 +165,4 @@ Just add this attribute `[GenerateRepository]` to an entity
         void Save();
         Task SaveAsync();
     }
+```
