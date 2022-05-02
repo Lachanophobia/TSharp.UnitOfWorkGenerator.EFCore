@@ -24,10 +24,7 @@ All classes are created as **partial** classes so you have the ability to extend
 3. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
 Into the root of your appsettings of your project add the following settings.  <br> **(Note: these settings need to exist on your main appsettings file and not into any other build configuration)**
 
-I
-
-
-
+```
 	"UoWSourceGenerator": {
 		"IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
 		"RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
@@ -36,6 +33,7 @@ I
 		"EnableISP_Call": "True",
 		"EnableGuidIdentityColumn": "False"
 	}
+```
 
 | Settings                |Type      |Description                  |                    
 |-------------------------|----------|-----------------------------|
