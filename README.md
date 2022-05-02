@@ -47,7 +47,7 @@ Into the root of your appsettings of your project add the following settings.  <
 ## Generate the Repositories
 Just add this attribute `[GenerateRepository]` to an entity
 
-	using TSharp.UnitOfWorkGenerator.Core.Utils;
+	using TSharp.UnitOfWorkGenerator.EFCore.Utils;
     namespace TSharp.UnitOfWorkGenerator.API.Entities;
     [GenerateRepository]
     public class Post
