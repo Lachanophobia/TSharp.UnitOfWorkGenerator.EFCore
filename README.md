@@ -42,7 +42,7 @@ Into the root of your appsettings of your project add the following settings.  <
 |DBEntitiesNamespace      |`string` (required)|The Namespace where your dbEntities live|
 |DBContextName            |`string` (required)|The Name of your class where you inherit from the DbContext|
 |EnableISP_Call           |`bool` (optional)  |This will add an extra Interface and Class into UnitOfWork to execute stored procedures. You need to **install Dapper** for this feature. Default is **false**|
-|EnableGuidIdentityColumn |`bool` (optional)  |Simply Choose between int and Guid as IdentityColumn. Default is **false**|
+|EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
 
 ## Generate the Repositories
 Just add this attribute `[GenerateRepository]` to an entity
