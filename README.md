@@ -28,14 +28,14 @@ I
 
 
 
-    "UoWSourceGenerator": {
-    	"IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
-    	"RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
-        "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
-        "DBContextName": "TSharpContext",
-        "EnableISP_Call": "True",
-        "EnableGuidIdentityColumn": "False"
-    }
+	"UoWSourceGenerator": {
+		"IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
+		"RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
+		"DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
+		"DBContextName": "TSharpContext",
+		"EnableISP_Call": "True",
+		"EnableGuidIdentityColumn": "False"
+	}
 
 | Settings                |Type      |Description                  |                    
 |-------------------------|----------|-----------------------------|
