@@ -196,7 +196,7 @@ You can view and dedug the generated files under your Dependencies -> Analyzers 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
 # Extend
-All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods!
+All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods! Just remember to use the namespaces you provided in the appsettings.
 
 ```csharp
 using TSharp.UnitOfWorkGenerator.API.Entities;
