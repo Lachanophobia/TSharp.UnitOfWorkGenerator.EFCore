@@ -72,7 +72,7 @@ Into the root of your appsettings of your project add the following settings.  <
 5. Build the project! At this point your reposiry has been created!
 
 ## Dependency Injection
-5. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+6. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
 	builder.Services.Scan(scan => scan
