@@ -28,7 +28,7 @@ Add the attribute [GenerateRepository] to your dbEntity, build the project and t
 ## Settings
 
 4. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
-Into your appsettings of your project add the following settings.<br>  <br> **Note: If you are installing the UntiOfWorkGenerator to a class library then create a new appsetings.json file inside that project** 
+Into your appsettings of your project add the following settings.<br>  <br> **Note: If you are installing the UnitOfWorkGenerator to a class library then create a new appsetings.json file inside that project** 
 ```json
     "UoWSourceGenerator": {
         "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
