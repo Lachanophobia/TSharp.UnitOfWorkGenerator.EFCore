@@ -50,7 +50,7 @@ Into the root of your appsettings of your project add the following settings.  <
 |EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
 
 ## Generate the Repositories
-Just add this attribute `[GenerateRepository]` to an entity
+4. Just add this attribute `[GenerateRepository]` to a dbEntity
 
 ```csharp
     using TSharp.UnitOfWorkGenerator.EFCore.Utils;    
@@ -69,7 +69,7 @@ Just add this attribute `[GenerateRepository]` to an entity
 
 ## Build
 
-4. Build the project! At this point your reposiry has been created!
+5. Build the project! At this point your reposiry has been created!
 
 ## Dependency Injection
 5. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
