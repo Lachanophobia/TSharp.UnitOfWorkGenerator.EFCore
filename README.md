@@ -22,13 +22,13 @@ Add the attribute [GenerateRepository] to your dbEntity, build the project and t
 # Installation 
 
 1.  First you need to Install Entity Framework Core and create at least one dbEntity
-2.  Install package //TODO 
+2.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore`
+3.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore.Utlis`
 
 ## Settings
 
-3. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
-Into the root of your appsettings of your project add the following settings.  <br> **(Note: these settings need to exist on your main appsettings file and not into any other build configuration)**
-
+4. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
+Into your appsettings of your project add the following settings.<br>  <br> **Note: If you are installing the UntiOfWorkGenerator to a class library then create a new appsetings.json file inside that project** 
 ```json
     "UoWSourceGenerator": {
         "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
@@ -49,8 +49,14 @@ Into the root of your appsettings of your project add the following settings.  <
 |EnableISP_Call           |`bool` (optional)  |This will add an extra Interface and Class into UnitOfWork to execute stored procedures. You need to **install Dapper** for this feature. Default is **false**|
 |EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
 
+5. Add the following xml inside your .csproj file of the project are installing the UnitOfWorkGenerator 
+```csharp
+<ItemGroup>
+	<AdditionalFiles Include="appsettings.json"  />
+</ItemGroup>
+```
 ## Generate the Repositories
-4. Just add this attribute `[GenerateRepository]` to a dbEntity
+6. Just add this attribute `[GenerateRepository]` to a dbEntity
 
 ```csharp
     using TSharp.UnitOfWorkGenerator.EFCore.Utils;    
@@ -69,10 +75,11 @@ Into the root of your appsettings of your project add the following settings.  <
 
 ## Build
 
-5. Build the project! At this point your repository has been created!
+7. Build the project! At this point your repository/ies has/have been created! <br><br>
+**Note: Some times Visual Studio can't resolve the newly created namespaces. It would be a good idea to restart Visual Studio. Later on when you will be consuming the UnitOfWorkGenerator, you will NOT have to restart Visual Studio all the time. <br><br>One more scenario that can occur is when you clean your solution and close the VS. So next time you will generate the repositories you will have to restart VS as well.**
 
 ## Dependency Injection
-6. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+8. As you would do normally, you need to use Dependency Injection to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
 	builder.Services.Scan(scan => scan
@@ -247,4 +254,6 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
 }
 
 ```
-Please get in touch for any issues or questions!
+Keep coding! Please get in touch for any issues or questions!
+
+ 
