@@ -22,7 +22,7 @@ Add the attribute [GenerateRepository] to your dbEntity, build the project and t
 # Installation 
 
 1.  First you need to Install Entity Framework Core and create at least one dbEntity
-2.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore`
+2.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore -Version 0.1.1-beta`
 3.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore.Utlis`
 
 ## Settings
