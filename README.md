@@ -14,6 +14,11 @@ All classes are created as **partial** classes so you have the ability to extend
 
 ***supports .Net 5 and higher versions.***
 
+# Usage
+Add the attribute [GenerateRepository] to your dbEntity, build the project and that's it! your repository has been created!
+
+![Alt Text](https://media.giphy.com/media/MO4vOE6zV4TzISSa5u/giphy.gif)
+
 # Installation 
 
 1.  First you need to Install Entity Framework Core and create at least one dbEntity
@@ -25,14 +30,14 @@ All classes are created as **partial** classes so you have the ability to extend
 Into the root of your appsettings of your project add the following settings.  <br> **(Note: these settings need to exist on your main appsettings file and not into any other build configuration)**
 
 ```json
-	"UoWSourceGenerator": {
-	    "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
-	    "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
-	    "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
-	    "DBContextName": "TSharpContext",
-	    "EnableISP_Call": "True",
-	    "EnableGuidIdentityColumn": "False"
-	}
+    "UoWSourceGenerator": {
+        "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
+        "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
+        "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
+        "DBContextName": "TSharpContext",
+        "EnableISP_Call": "True",
+        "EnableGuidIdentityColumn": "False"
+    }
 ```
 
 | Settings                |Type      |Description                  |                    
@@ -45,7 +50,7 @@ Into the root of your appsettings of your project add the following settings.  <
 |EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
 
 ## Generate the Repositories
-Just add this attribute `[GenerateRepository]` to an entity
+4. Just add this attribute `[GenerateRepository]` to a dbEntity
 
 ```csharp
     using TSharp.UnitOfWorkGenerator.EFCore.Utils;    
@@ -64,10 +69,10 @@ Just add this attribute `[GenerateRepository]` to an entity
 
 ## Build
 
-3. Build the project :D 
+5. Build the project! At this point your reposiry has been created!
 
 ## Dependency Injection
-4. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+5. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
 	builder.Services.Scan(scan => scan
@@ -78,6 +83,20 @@ Just add this attribute `[GenerateRepository]` to an entity
 	    
         builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+```
+## You can start using it! 
+```csharp
+    public TestController(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    [HttpGet]
+    [Route("GetPosts")]
+    public async Task<IActionResult> GetPosts(CancellationToken cancellationToken)
+    {
+        return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1, cancellationToken));
+    }
 ```
 # Exposed Methods
 ## IRepository 
@@ -167,3 +186,8 @@ Just add this attribute `[GenerateRepository]` to an entity
         Task SaveAsync();
     }
 ```
+# Debugging
+You can view and dedug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
+
+![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
+
