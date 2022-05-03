@@ -200,6 +200,18 @@ All classes are partials and all methods are virtual. So you can extend your rep
 
 ```csharp
 using TSharp.UnitOfWorkGenerator.API.Entities;
+
+namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
+{
+    public partial interface IPostRepository
+    {
+        Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default);
+    }
+}
+```
+
+```csharp
+using TSharp.UnitOfWorkGenerator.API.Entities;
 using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
