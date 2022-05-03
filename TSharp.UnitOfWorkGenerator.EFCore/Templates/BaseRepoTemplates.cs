@@ -7,9 +7,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildBaseRepoTemplate(this Template templateBaseRepo)
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($@"// Auto-generated code
+            var template =$@"// Auto-generated code
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 {templateBaseRepo.UsingStatements}
@@ -235,16 +233,14 @@ public partial class Repository<T> : IRepository<T> where T : class
 
     #endregion
 }}
-");
-            return stringBuilder.ToString();
+";
+            return template;
         }
 
 
         public static string BuildIBaseRepoTemplate(this Template templateBaseIRepo)
         {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 using System.Linq.Expressions;
 
 namespace {templateBaseIRepo.Namespace}
@@ -420,9 +416,9 @@ namespace {templateBaseIRepo.Namespace}
         #endregion
     }}
 }}
-");
+";
 
-            return stringBuilder.ToString();
+            return template;
         }
     }
 }

@@ -8,9 +8,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildRepoTemplate(this Template templateRepo)
         {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 {templateRepo.UsingStatements} 
 
 namespace {templateRepo.Namespace} 
@@ -25,16 +23,14 @@ namespace {templateRepo.Namespace}
         }} 
     }}
 }}
-");
+";
 
-            return stringBuilder.ToString();
+            return template;
         }
 
         public static string BuildIRepoTemplate(this Template templateIRepo)
         {
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 {templateIRepo.UsingStatements} 
 
 namespace {templateIRepo.Namespace} 
@@ -43,8 +39,8 @@ namespace {templateIRepo.Namespace}
     {{ 
     }} 
 }}
-");
-            return stringBuilder.ToString();
+";
+            return template;
         }
     }
 }

@@ -7,8 +7,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildISP_CallTemplate(this Template templateISP_Call)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 using Dapper;
 using System.Data;
 
@@ -137,15 +136,14 @@ namespace {templateISP_Call.Namespace}
         Task<T> SingleAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
     }}
 }}
-");
+";
 
-            return stringBuilder.ToString();
+            return template;
         }
 
         public static string BuildSP_CallTemplate(this Template templateSP_Call)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -364,10 +362,10 @@ namespace {templateSP_Call.Namespace}
     }}
 }}
 
-");
+";
 
             
-            return stringBuilder.ToString();
+            return template;
         }
     }
 }

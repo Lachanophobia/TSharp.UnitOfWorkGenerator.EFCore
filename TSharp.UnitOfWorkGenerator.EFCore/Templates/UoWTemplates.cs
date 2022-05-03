@@ -7,8 +7,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildUoWTemplate(this Template templateUoW)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 {templateUoW.UsingStatements} 
 
 namespace {templateUoW.Namespace} 
@@ -41,15 +40,14 @@ namespace {templateUoW.Namespace}
         }}
     }} 
 }}
-");
+";
 
-            return stringBuilder.ToString();
+            return template;
         }
 
         public static string BuildIUoWTemplate(this Template templateIUoW)
         {
-            var stringBuilder = new StringBuilder();
-            stringBuilder.Append($@"// Auto-generated code
+            var template = $@"// Auto-generated code
 namespace {templateIUoW.Namespace} 
 {{
     public partial interface IUnitOfWork : IDisposable 
@@ -59,9 +57,9 @@ namespace {templateIUoW.Namespace}
         Task SaveAsync();
     }} 
 }}
-");
+";
 
-            return stringBuilder.ToString();
+            return template;
         }
     }
 }
