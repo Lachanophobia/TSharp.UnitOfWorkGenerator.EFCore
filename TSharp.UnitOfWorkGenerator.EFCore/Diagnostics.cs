@@ -12,7 +12,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
         internal static bool ValidateAppSettings(GeneratorExecutionContext context, UoWSourceGenerator settings, AdditionalText file)
         {
             var allSettingsArePopulated = true;
-            // latest code -> UoWGenerator007
+            // latest code -> UoWGenerator008
 
             if (file == null)
             {
@@ -25,7 +25,21 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
                 context.ReportDiagnostic(Diagnostic.Create(appSettingsFileMissing, Location.None));
 
-                allSettingsArePopulated = false;
+                return false;
+            }
+
+            if (file.GetText() == null)
+            {
+                var appSettingsFileMissing = new DiagnosticDescriptor(id: "UoWGenerator008",
+                    title: "Could not get settings from appsetting.json",
+                    messageFormat: "Could not get settings from appsettings.Json.",
+                    category: "UoWGeneratorGenerator",
+                    DiagnosticSeverity.Error,
+                    isEnabledByDefault: true);
+
+                context.ReportDiagnostic(Diagnostic.Create(appSettingsFileMissing, Location.None));
+
+                return false;
             }
 
             if (string.IsNullOrWhiteSpace(settings.RepoNamespace))
