@@ -84,7 +84,7 @@ Just add this attribute `[GenerateRepository]` to an entity
         builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 ```
-## Use it! 
+## You can start using it! 
 ```csharp
     public TestController(IUnitOfWork unitOfWork)
     {
