@@ -7,6 +7,8 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TSharp.UnitOfWorkGenerator.EFCore.Templates;
 using TSharp.UnitOfWorkGenerator.EFCore.Models;
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore
 {
@@ -15,13 +17,13 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-            //#if DEBUG
-            //            if (!Debugger.IsAttached)
-            //            {
-            //                Debugger.Launch();
-            //            }
-            //#endif
-            //            Debug.WriteLine("Initalize code generator");
+//#if DEBUG
+//            if (!Debugger.IsAttached)
+//            {
+//                Debugger.Launch();
+//            }
+//#endif
+//            Debug.WriteLine("Initalize code generator");
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -57,11 +59,14 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
             PopulateUoWConstInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, settings);
 
-            for (int i = 0; i < reposToBeAdded.Count; i++)
-            {
-                var entity = reposToBeAdded[i].Identifier.ToString();
-                var isLast = i + 1 == reposToBeAdded.Count;
+            ConcurrentBag<TypeDeclarationSyntax> repos = new ConcurrentBag<TypeDeclarationSyntax>(reposToBeAdded);
 
+            int count = 0;
+            var options = new ParallelOptions { MaxDegreeOfParallelism = 4 };
+            Parallel.ForEach(repos, options, repo =>
+            {
+                var entity = repo.Identifier.ToString();
+               
                 var genRepoNames = new GeneratedRepoNames()
                 {
                     Entity = entity,
@@ -72,8 +77,10 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 GenerateIRepo(genRepoNames, settings, context);
                 GenerateRepo(genRepoNames, settings, context);
 
-                PopulateUoWGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, isLast);
-            }
+                PopulateUoWGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, count + 1 == reposToBeAdded.Count);
+                count++;
+
+            });
 
             var generatedUoWInfo = GetGeneratedUoWInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties);
 

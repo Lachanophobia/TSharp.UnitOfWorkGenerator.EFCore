@@ -1,4 +1,5 @@
-﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
+﻿using System.Text;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
@@ -7,45 +8,43 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildRepoTemplate(this Template templateRepo)
         {
-            var template = @"// Auto-generated code
-{0} 
+            var stringBuilder = new StringBuilder();
 
-namespace {1} 
+            stringBuilder.Append($@"// Auto-generated code
+{templateRepo.UsingStatements} 
+
+namespace {templateRepo.Namespace} 
 {{
-    public partial class {2} : Repository<{3}>, {4} 
+    public partial class {templateRepo.RepoName} : Repository<{templateRepo.Entity}>, {templateRepo.IRepoName} 
     {{ 
-        private readonly {5} _context; 
+        private readonly {templateRepo.DBContextName} _context; 
  
-        public {2}({5} db) : base(db) 
+        public {templateRepo.RepoName}({templateRepo.DBContextName} db) : base(db) 
         {{ 
             _context = db; 
         }} 
     }}
 }}
-";
+");
 
-            var repoTemplate = string.Format(template, templateRepo.UsingStatements, templateRepo.Namespace, templateRepo.RepoName,
-                templateRepo.Entity, templateRepo.IRepoName, templateRepo.DBContextName);
-
-            return repoTemplate;
+            return stringBuilder.ToString();
         }
 
         public static string BuildIRepoTemplate(this Template templateIRepo)
         {
-            var template = @"// Auto-generated code 
-{0} 
+            var stringBuilder = new StringBuilder();
 
-namespace {1} 
+            stringBuilder.Append($@"// Auto-generated code
+{templateIRepo.UsingStatements} 
+
+namespace {templateIRepo.Namespace} 
 {{
-    public partial interface {2} : IRepository<{3}> 
+    public partial interface {templateIRepo.IRepoName} : IRepository<{templateIRepo.Entity}> 
     {{ 
     }} 
 }}
-";
-
-            var iRepoTemplate = string.Format(template, templateIRepo.UsingStatements, templateIRepo.Namespace, templateIRepo.IRepoName, templateIRepo.Entity);
-
-            return iRepoTemplate;
+");
+            return stringBuilder.ToString();
         }
     }
 }
