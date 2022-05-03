@@ -69,7 +69,7 @@ Into the root of your appsettings of your project add the following settings.  <
 
 ## Build
 
-5. Build the project! At this point your reposiry has been created!
+5. Build the project! At this point your repository has been created!
 
 ## Dependency Injection
 6. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
