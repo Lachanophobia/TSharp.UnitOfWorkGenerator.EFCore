@@ -24,17 +24,17 @@ namespace {templateUoW.Namespace}
 {templateUoW.Constructor} 
         }}  
 
-        public void Dispose()
+        public virtual void Dispose()
         {{
             _db.Dispose();
         }}
 
-        public void Save()
+        public virtual void Save()
         {{
             _db.SaveChanges();
         }}
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {{
             await _db.SaveChangesAsync();
         }}

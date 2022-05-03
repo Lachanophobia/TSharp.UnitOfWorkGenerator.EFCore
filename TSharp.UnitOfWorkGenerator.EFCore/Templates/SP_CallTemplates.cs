@@ -164,7 +164,7 @@ namespace {templateSP_Call.Namespace}
             connectionString = db.Database.GetDbConnection().ConnectionString;
         }}
 
-        public void Dispose()
+        public virtual void Dispose()
         {{
             _db.Dispose();
         }}
@@ -172,7 +172,7 @@ namespace {templateSP_Call.Namespace}
         #region asynchronous methods
 
         /// <inheritdoc/>
-        public async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task ExecuteAsync(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -187,7 +187,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<IEnumerable<T>> ListAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -206,7 +206,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Tuple<IEnumerable<T1>, IEnumerable<T2>>> ListAsync<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -230,7 +230,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
+        public virtual async Task<T> OneRecordAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null, CancellationToken cancellationToken = default)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -248,7 +248,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public async Task<T> SingleAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual async Task<T> SingleAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -267,7 +267,7 @@ namespace {templateSP_Call.Namespace}
 
         #region synchronous methods
         /// <inheritdoc/>
-        public void Execute(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual void Execute(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -282,7 +282,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public IEnumerable<T> List<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual IEnumerable<T> List<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -299,7 +299,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public Tuple<IEnumerable<T1>, IEnumerable<T2>> List<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual Tuple<IEnumerable<T1>, IEnumerable<T2>> List<T1, T2>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -323,7 +323,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public T OneRecord<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual T OneRecord<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();
@@ -341,7 +341,7 @@ namespace {templateSP_Call.Namespace}
         }}
 
         /// <inheritdoc/>
-        public T Single<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
+        public virtual T Single<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null)
         {{
             IDbConnection dbConnection = connection ?? new SqlConnection(connectionString);
             dbConnection.Open();

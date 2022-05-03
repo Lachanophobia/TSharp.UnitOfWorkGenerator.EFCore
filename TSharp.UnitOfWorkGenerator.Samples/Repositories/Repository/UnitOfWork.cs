@@ -19,17 +19,17 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository
             SP_Call = sP_Call;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             _db.Dispose();
         }
 
-        public void Save()
+        public virtual void Save()
         {
             _db.SaveChanges();
         }
 
-        public async Task SaveAsync()
+        public virtual async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
         }
