@@ -65,6 +65,34 @@ public partial class Repository<T> : IRepository<T> where T : class
     }
 
     /// <inheritdoc/>
+    public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, params Expression<Func<T, object>>[] includeProperties)
+    {
+        IQueryable<T> query = dbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        if (includeProperties.Any())
+        {
+            var expressions = includeProperties.Select(ex => ex);
+
+            foreach (var expression in expressions)
+            {
+                query = query.Include(expression);
+            }
+        }
+
+        if (orderBy != null)
+        {
+            return await query.OrderBy(orderBy).ToListAsync();
+        }
+
+        return await query.ToListAsync();
+    }
+
+    /// <inheritdoc/>
     public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
     {
         IQueryable<T> query = dbSet;
@@ -85,6 +113,29 @@ public partial class Repository<T> : IRepository<T> where T : class
         }
 
         return await query.FirstOrDefaultAsync(cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties)
+    {
+        IQueryable<T> query = dbSet;
+
+        if (filter != null)
+        {
+            query = query.Where(filter);
+        }
+
+        if (includeProperties.Any())
+        {
+            var expressions = includeProperties.Select(ex => ex);
+
+            foreach (var expression in expressions)
+            {
+                query = query.Include(expression);
+            }
+        }
+
+        return await query.FirstOrDefaultAsync();
     }
 
     /// <inheritdoc/>
