@@ -167,3 +167,8 @@ Just add this attribute `[GenerateRepository]` to an entity
         Task SaveAsync();
     }
 ```
+# Debugging
+You can view and dedug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
+
+![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
+
