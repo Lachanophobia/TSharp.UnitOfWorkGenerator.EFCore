@@ -276,7 +276,12 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             if (file == null)
                 return new Tuple<UoWSourceGenerator, AdditionalText>(null, null);
 
-            var settingsAsJson = file.GetText().ToString();
+            var text = file.GetText();
+
+            if (text == null)
+                return new Tuple<UoWSourceGenerator, AdditionalText>(null, null);
+
+            var settingsAsJson = text.ToString();
             var settings = JsonConvert.DeserializeObject<AppSettings>(settingsAsJson).UoWSourceGenerator;
 
             return new Tuple<UoWSourceGenerator, AdditionalText>(settings, file);
