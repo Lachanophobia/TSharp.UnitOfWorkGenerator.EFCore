@@ -14,6 +14,11 @@ All classes are created as **partial** classes so you have the ability to extend
 
 ***supports .Net 5 and higher versions.***
 
+# Usage
+Add the attribute [GenerateRepository] to your dbEntity, build the project and that's it! your repository has been created!
+
+![Alt Text](https://media.giphy.com/media/MO4vOE6zV4TzISSa5u/giphy.gif)
+
 # Installation 
 
 1.  First you need to Install Entity Framework Core and create at least one dbEntity
@@ -25,14 +30,14 @@ All classes are created as **partial** classes so you have the ability to extend
 Into the root of your appsettings of your project add the following settings.  <br> **(Note: these settings need to exist on your main appsettings file and not into any other build configuration)**
 
 ```json
-	"UoWSourceGenerator": {
-	    "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
-	    "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
-	    "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
-	    "DBContextName": "TSharpContext",
-	    "EnableISP_Call": "True",
-	    "EnableGuidIdentityColumn": "False"
-	}
+    "UoWSourceGenerator": {
+        "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
+        "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
+        "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
+        "DBContextName": "TSharpContext",
+        "EnableISP_Call": "True",
+        "EnableGuidIdentityColumn": "False"
+    }
 ```
 
 | Settings                |Type      |Description                  |                    
@@ -64,10 +69,10 @@ Just add this attribute `[GenerateRepository]` to an entity
 
 ## Build
 
-3. Build the project :D 
+4. Build the project! At this point your reposiry has been created!
 
 ## Dependency Injection
-4. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+5. As you would do normally, you need to use DI to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
 	builder.Services.Scan(scan => scan
@@ -78,6 +83,20 @@ Just add this attribute `[GenerateRepository]` to an entity
 	    
         builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+```
+## Use it! 
+```csharp
+    public TestController(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    [HttpGet]
+    [Route("GetPosts")]
+    public async Task<IActionResult> GetPosts(CancellationToken cancellationToken)
+    {
+        return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1, cancellationToken));
+    }
 ```
 # Exposed Methods
 ## IRepository 
