@@ -1,4 +1,5 @@
-﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
+﻿using System.Text;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
@@ -6,21 +7,22 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildUoWTemplate(this Template templateUoW)
         {
-            var template = @"// Auto-generated code
-{0} 
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($@"// Auto-generated code
+{templateUoW.UsingStatements} 
 
-namespace {1} 
+namespace {templateUoW.Namespace} 
 {{
     public partial class UnitOfWork : IUnitOfWork 
     {{ 
-{2}
+{templateUoW.Properties}
 
         public UnitOfWork 
         ( 
-{3} 
+{templateUoW.Parameters} 
         ) 
         {{ 
-{4} 
+{templateUoW.Constructor} 
         }}  
 
         public void Dispose()
@@ -39,31 +41,27 @@ namespace {1}
         }}
     }} 
 }}
-";
-            var uoWTemplate = string.Format(template, templateUoW.UsingStatements, templateUoW.Namespace, templateUoW.Properties, templateUoW.Parameters, templateUoW.Constructor);
+");
 
-            return uoWTemplate;
+            return stringBuilder.ToString();
         }
 
         public static string BuildIUoWTemplate(this Template templateIUoW)
         {
-            var template = @"// Auto-generated code
-namespace {0} 
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($@"// Auto-generated code
+namespace {templateIUoW.Namespace} 
 {{
     public partial interface IUnitOfWork : IDisposable 
     {{ 
-{1} 
+{templateIUoW.Properties} 
         void Save();
         Task SaveAsync();
     }} 
 }}
-";
+");
 
-            var iUoWTemplate = string.Format(template, templateIUoW.Namespace, templateIUoW.Properties);
-
-            return iUoWTemplate;
+            return stringBuilder.ToString();
         }
-
-
     }
 }

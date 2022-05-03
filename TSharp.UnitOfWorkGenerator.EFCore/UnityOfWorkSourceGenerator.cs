@@ -28,7 +28,8 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
         public void Execute(GeneratorExecutionContext context)
         {
-            Diagnostics.CheckedForEntityFrameworkCoreDependency(context);
+            if (!Diagnostics.CheckedForEntityFrameworkCoreDependency(context))
+                return;
 
             var syntaxTrees = context.Compilation.SyntaxTrees;
 
@@ -39,18 +40,22 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[GenerateRepository]", StringComparison.OrdinalIgnoreCase)))
                 .ToList();
 
-            //var reposUsingDirectives = reposToBeAdded.SelectMany(x => x.SyntaxTree.GetRoot().DescendantNodes().OfType<UsingDirectiveSyntax>()).Select(x => x.ToString()).Distinct();
+            if (!Diagnostics.ValidateReposToBeAdded(context, reposToBeAdded))
+                return;
 
             var (settings, file) = GetAppSettings(context);
 
-            Diagnostics.ValidateAppSettings(context, settings, file);
-            Diagnostics.CheckedForDapperDependency(context, settings);
+            if (!Diagnostics.ValidateAppSettings(context, settings, file))
+                return;
 
             GenerateBaseIRepo(settings, context);
             GenerateBaseRepo(settings, context);
 
             if (settings.EnableISP_Call)
             {
+                if(!Diagnostics.CheckedForDapperDependency(context))
+                    return;
+
                 GenerateISP_Call(settings, context);
                 GenerateSP_Call(settings, context);
             }
@@ -59,28 +64,46 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
             PopulateUoWConstInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, settings);
 
-            ConcurrentBag<TypeDeclarationSyntax> repos = new ConcurrentBag<TypeDeclarationSyntax>(reposToBeAdded);
+            var toBeAddedLast = reposToBeAdded.LastOrDefault();
+            reposToBeAdded.Remove(toBeAddedLast);
 
-            int count = 0;
             var options = new ParallelOptions { MaxDegreeOfParallelism = 4 };
-            Parallel.ForEach(repos, options, repo =>
+
+            if (reposToBeAdded.Any())
             {
-                var entity = repo.Identifier.ToString();
-               
-                var genRepoNames = new GeneratedRepoNames()
+                ConcurrentBag<TypeDeclarationSyntax> repos = new ConcurrentBag<TypeDeclarationSyntax>(reposToBeAdded);
+
+                Parallel.ForEach(repos, options, repo =>
                 {
-                    Entity = entity,
-                    RepoName = $"{entity}Repository",
-                    IRepoName = $"I{entity}Repository"
-                };
+                    var entity = repo.Identifier.ToString();
 
-                GenerateIRepo(genRepoNames, settings, context);
-                GenerateRepo(genRepoNames, settings, context);
+                    var genRepoNames = new GeneratedRepoNames()
+                    {
+                        Entity = entity,
+                        RepoName = $"{entity}Repository",
+                        IRepoName = $"I{entity}Repository"
+                    };
 
-                PopulateUoWGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, count + 1 == reposToBeAdded.Count);
-                count++;
+                    GenerateIRepo(genRepoNames, settings, context);
+                    GenerateRepo(genRepoNames, settings, context);
 
-            });
+                    PopulateUoWGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, false);
+                });
+            }
+
+            var lastRepo = toBeAddedLast.Identifier.ToString();
+
+            var genRepoNames = new GeneratedRepoNames()
+            {
+                Entity = lastRepo,
+                RepoName = $"{lastRepo}Repository",
+                IRepoName = $"I{lastRepo}Repository"
+            };
+
+            GenerateIRepo(genRepoNames, settings, context);
+            GenerateRepo(genRepoNames, settings, context);
+
+            PopulateUoWGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, true);
 
             var generatedUoWInfo = GetGeneratedUoWInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties);
 
@@ -250,7 +273,8 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
         {
             var file = context.AdditionalFiles.FirstOrDefault(x => x.Path.Contains("appsettings.json"));
 
-            Diagnostics.CheckForAppSettingsExistence(context, file);
+            if (file == null)
+                return new Tuple<UoWSourceGenerator, AdditionalText>(null, null);
 
             var settingsAsJson = file.GetText().ToString();
             var settings = JsonConvert.DeserializeObject<AppSettings>(settingsAsJson).UoWSourceGenerator;

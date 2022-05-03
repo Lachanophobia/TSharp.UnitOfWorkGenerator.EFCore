@@ -9,238 +9,232 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("// Auto-generated code \n");
-            stringBuilder.Append("using System.Linq.Expressions; \n");
-            stringBuilder.Append("using Microsoft.EntityFrameworkCore; \n");
-            stringBuilder.Append($"{templateBaseRepo.UsingStatements} \n");
-            stringBuilder.Append("\n");
-            stringBuilder.Append($"namespace {templateBaseRepo.Namespace}; \n");
-            stringBuilder.Append("\n");
-            stringBuilder.Append("public partial class Repository<T> : IRepository<T> where T : class \n");
-            stringBuilder.Append("{ \n");
-            stringBuilder.Append($"    private readonly {templateBaseRepo.DBContextName} _db; \n");
-            stringBuilder.Append("    internal DbSet<T> dbSet; \n");
-            stringBuilder.Append("\n \n");
-            stringBuilder.Append($"    public Repository({templateBaseRepo.DBContextName} db) \n");
-            stringBuilder.Append("");
-            stringBuilder.Append(@"    {
+            stringBuilder.Append($@"// Auto-generated code
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+{templateBaseRepo.UsingStatements}
+
+namespace {templateBaseRepo.Namespace};
+
+public partial class Repository<T> : IRepository<T> where T : class
+{{
+    private readonly {templateBaseRepo.DBContextName} _db;
+    internal DbSet<T> dbSet;
+
+    public Repository({templateBaseRepo.DBContextName} db)
+    {{
         _db = db;
         dbSet = _db.Set<T>();
-    }
+    }}
 
     #region asynchronous methods
 
     /// <inheritdoc/>
     public virtual async Task AddAsync(T entity, CancellationToken cancellationToken = default)
-    {
+    {{
         await dbSet.AddAsync(entity, cancellationToken);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-    {
+    {{
         await dbSet.AddRangeAsync(entities, cancellationToken);
-    }
+    }}
 
     /// <inheritdoc/>
-    ");
-            stringBuilder.Append($"    public virtual async Task<T> GetAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default) \n");
-            stringBuilder.Append(@"    {
+    public virtual async Task<T> GetAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default)
+    {{
         return await dbSet.FindAsync(id, cancellationToken);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
-    {
+    {{
         IQueryable<T> query = dbSet;
 
         if (filter != null)
-        {
+        {{
             query = query.Where(filter);
-        }
+        }}
 
         if (includeProperties.Any())
-        {
+        {{
             var expressions = includeProperties.Select(ex => ex);
 
             foreach (var expression in expressions)
-            {
+            {{
                 query = query.Include(expression);
-            }
-        }
+            }}
+        }}
 
         if (orderBy != null)
-        {
+        {{
             return await query.OrderBy(orderBy).ToListAsync(cancellationToken);
-        }
+        }}
 
         return await query.ToListAsync(cancellationToken);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter = null, CancellationToken cancellationToken = default, params Expression<Func<T, object>>[] includeProperties)
-    {
+    {{
         IQueryable<T> query = dbSet;
 
         if (filter != null)
-        {
+        {{
             query = query.Where(filter);
-        }
+        }}
 
         if (includeProperties.Any())
-        {
+        {{
             var expressions = includeProperties.Select(ex => ex);
 
             foreach (var expression in expressions)
-            {
+            {{
                 query = query.Include(expression);
-            }
-        }
+            }}
+        }}
 
         return await query.FirstOrDefaultAsync(cancellationToken);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task UpdateAsync(T entity)
-    {
+    {{
         dbSet.Update(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task UpdateRangeAsync(IEnumerable<T> entity)
-    {
+    {{
         dbSet.UpdateRange(entity);
-    }
+    }}
 
     /// <inheritdoc/>
-    ");
-            stringBuilder.Append($"    public virtual async Task RemoveAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default) \n");
-            stringBuilder.Append(@"    {
+    public virtual async Task RemoveAsync({templateBaseRepo.IdentityColumn} id, CancellationToken cancellationToken = default)
+    {{
         T entity = await dbSet.FindAsync(id, cancellationToken);
         dbSet.Remove(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task RemoveAsync(T entity)
-    {
+    {{
         dbSet.Remove(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual async Task RemoveRangeAsync(IEnumerable<T> entity)
-    {
+    {{
         dbSet.RemoveRange(entity);
-    }
+    }}
 
     #endregion
 
     #region synchronous methods
 
     /// <inheritdoc/>
-    ");
-            stringBuilder.Append($"    public virtual T Get({templateBaseRepo.IdentityColumn} id) \n");
-            stringBuilder.Append(@"    {
+    public virtual T Get({templateBaseRepo.IdentityColumn} id)
+    {{
         return dbSet.Find(id);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Expression<Func<T, object>> orderBy = null, params Expression<Func<T, object>>[] includeProperties)
-    {
+    {{
         IQueryable<T> query = dbSet;
 
         if (filter != null)
-        {
+        {{
             query = query.Where(filter);
-        }
+        }}
 
         if (includeProperties.Any())
-        {
+        {{
             var expressions = includeProperties.Select(ex => ex);
 
             foreach (var expression in expressions)
-            {
+            {{
                 query = query.Include(expression);
-            }
-        }
+            }}
+        }}
 
         if (orderBy != null)
-        {
+        {{
             return query.OrderBy(orderBy).ToList();
-        }
+        }}
 
         return query.ToList();
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, params Expression<Func<T, object>>[] includeProperties)
-    {
+    {{
         IQueryable<T> query = dbSet;
 
         if (filter != null)
-        {
+        {{
             query = query.Where(filter);
-        }
+        }}
 
         if (includeProperties.Any())
-        {
+        {{
             var expressions = includeProperties.Select(ex => ex);
 
             foreach (var expression in expressions)
-            {
+            {{
                 query = query.Include(expression);
-            }
-        }
+            }}
+        }}
 
         return query.FirstOrDefault();
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void Add(T entity)
-    {
+    {{
         dbSet.Add(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void AddRange(IEnumerable<T> entities)
-    {
+    {{
         dbSet.AddRange(entities);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void Update(T entity)
-    {
+    {{
         dbSet.Update(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void UpdateRange(IEnumerable<T> entity)
-    {
+    {{
         dbSet.UpdateRange(entity);
-    }
+    }}
 
     /// <inheritdoc/>
-    ");
-         stringBuilder.Append($"    public virtual void Remove({templateBaseRepo.IdentityColumn} id) \n");
-         stringBuilder.Append(@"    {
+    public virtual void Remove({templateBaseRepo.IdentityColumn} id)
+    {{
         T entity = dbSet.Find(id);
         dbSet.Remove(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void Remove(T entity)
-    {
+    {{
         dbSet.Remove(entity);
-    }
+    }}
 
     /// <inheritdoc/>
     public virtual void RemoveRange(IEnumerable<T> entity)
-    {
+    {{
         dbSet.RemoveRange(entity);
-    }
+    }}
 
     #endregion
-}
-
+}}
 ");
             return stringBuilder.ToString();
         }
@@ -248,10 +242,12 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 
         public static string BuildIBaseRepoTemplate(this Template templateBaseIRepo)
         {
-            var template = @"// Auto-generated code
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($@"// Auto-generated code
 using System.Linq.Expressions;
 
-namespace {0}
+namespace {templateBaseIRepo.Namespace}
 {{
     public interface IRepository
     {{
@@ -267,7 +263,7 @@ namespace {0}
         /// <typeparam name=""T"">The type to return</typeparam>
         /// <param name=""id""></param>
         /// <returns><typeparamref name=""T""/></returns>
-        Task<T> GetAsync({1} id, CancellationToken cancellationToken = default);
+        Task<T> GetAsync({templateBaseIRepo.IdentityColumn} id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets all entities as IEnumerable of <typeparamref name=""T""/>
@@ -323,7 +319,7 @@ namespace {0}
         /// Deletes the entity by its id
         /// </summary>
         /// <param name=""id""></param>
-        Task RemoveAsync({1} id, CancellationToken cancellationToken = default);
+        Task RemoveAsync({templateBaseIRepo.IdentityColumn} id, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes the entity
@@ -349,7 +345,7 @@ namespace {0}
         /// <typeparam name=""T"">The type to return</typeparam>
         /// <param name=""id""></param>
         /// <returns><typeparamref name=""T""/></returns>
-        T Get({1} id);
+        T Get({templateBaseIRepo.IdentityColumn} id);
 
         /// <summary>
         /// Gets all entities as IEnumerable of <typeparamref name=""T""/>
@@ -397,7 +393,7 @@ namespace {0}
         /// Deletes the entity by its id
         /// </summary>
         /// <param name=""id""></param>
-        void Remove({1} id);
+        void Remove({templateBaseIRepo.IdentityColumn} id);
 
         /// <summary>
         /// Deletes the entity
@@ -424,11 +420,9 @@ namespace {0}
         #endregion
     }}
 }}
-";
+");
 
-            var baseIRepoTemplate = string.Format(template, templateBaseIRepo.Namespace, templateBaseIRepo.IdentityColumn);
-
-            return baseIRepoTemplate;
+            return stringBuilder.ToString();
         }
     }
 }

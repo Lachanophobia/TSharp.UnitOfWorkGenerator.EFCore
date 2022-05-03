@@ -1,4 +1,5 @@
-﻿using TSharp.UnitOfWorkGenerator.EFCore.Models;
+﻿using System.Text;
+using TSharp.UnitOfWorkGenerator.EFCore.Models;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 {
@@ -6,11 +7,12 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
     {
         public static string BuildISP_CallTemplate(this Template templateISP_Call)
         {
-            var template = @"// Auto-generated code
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($@"// Auto-generated code
 using Dapper;
 using System.Data;
 
-namespace {0}
+namespace {templateISP_Call.Namespace}
 {{
     public partial interface ISP_Call : IDisposable
     {{
@@ -135,31 +137,30 @@ namespace {0}
         Task<T> SingleAsync<T>(string procedureName, DynamicParameters param = null, IDbConnection? connection = null, IDbTransaction? transaction = null, int? commandTimeout = null);
     }}
 }}
-";
+");
 
-            var iSP_CallTemplate = string.Format(template, templateISP_Call.Namespace);
-
-            return iSP_CallTemplate;
+            return stringBuilder.ToString();
         }
 
         public static string BuildSP_CallTemplate(this Template templateSP_Call)
         {
-            var template = @"// Auto-generated code
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($@"// Auto-generated code
 using Dapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-{0}
+{templateSP_Call.UsingStatements}
 
-namespace {1}
+namespace {templateSP_Call.Namespace}
 {{
     public partial class SP_Call : ISP_Call
     {{
 
-        private readonly {2} _db;
+        private readonly {templateSP_Call.DBContextName} _db;
         private static string connectionString = """";
 
-        public SP_Call({2} db)
+        public SP_Call({templateSP_Call.DBContextName} db)
         {{
             _db = db;
             connectionString = db.Database.GetDbConnection().ConnectionString;
@@ -363,11 +364,10 @@ namespace {1}
     }}
 }}
 
-";
+");
 
-            var sP_CallTemplate = string.Format(template, templateSP_Call.UsingStatements, templateSP_Call.Namespace, templateSP_Call.DBContextName);
-
-            return sP_CallTemplate;
+            
+            return stringBuilder.ToString();
         }
     }
 }
