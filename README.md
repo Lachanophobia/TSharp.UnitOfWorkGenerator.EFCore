@@ -143,19 +143,20 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
 ```
 <hr>
 
-**2.2** Override the default generic repository!
-You can create you own generic repository and decorated with this attribute `[UoWOverrideRepository]`. 
+**2.2** Override the default generic repository! <br>
+You can create your own generic repository and decorate it with this attribute `[UoWOverrideRepository]`. 
 
-To do that you will need to inherit from the default `Repository` and also to provide and an interface for that, which again needs to implement the default `IRepository`. 
+To do that you will need to inherit from the default `Repository` and also to provide an interface for that as well, which again needs to implement the default `IRepository`. 
 
 Your `ICustomRepository` needs to have a Constraint of type `IBaseEntity`
 and your `CustomRepository` needs to have a Constraint of type `BaseEntity`
 
-*The `BaseEntity` is the reason your dbEntities need to be partial classes. 
-Alongside with the generated repositories, partial classes of your dbEntities are generated as well and they Inherit from the `BaseEntity` which also has an interface `IBaseEntity`*
-
 **This is all you need to Override the default Repository!**
 <hr>
+
+*The `BaseEntity` is the reason your dbEntities needed to be partial classes. 
+Alongside with the generated repositories, partial classes of your dbEntities are generated as well and they Inherit from the `BaseEntity`.*
+
 
 Now, why you may need the BaseEntity??<br>
 Because this gives you the flexibility to have some generics properties for all your dbEntities. 
@@ -163,7 +164,7 @@ Because this gives you the flexibility to have some generics properties for all 
 A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
 and you want to generalise the population of these. 
 
-**Here is an example how you can achieve this:**
+**Here is an example how you can achieve this:** <br>
 Create the IBaseEntity and the BaseEntity as partial classes with the namespace of your dbEntites and add the generic properties you wish.
  
 ```csharp
@@ -188,7 +189,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Entities
 
 ```
 
-Then create your custom `ICustomRepository` and `CustomRepository` 
+Then create your `ICustomRepository` and `CustomRepository` 
 
 ```csharp
 namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
@@ -206,9 +207,11 @@ And override the methods you wish or create new ones!
 public class CustomRepository<T> : Repository<T> where T : BaseEntity
 {
     public TSharpContext _db { get; set; }
+    private DbSet<T> dbSet;
     public CustomRepository(TSharpContext db) : base(db)
     {
         _db = db;
+        dbSet = _db.Set<T>();
     }
 
     /// <inheritdoc />
