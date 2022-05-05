@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using TSharp.UnitOfWorkGenerator.Samples.Entities;
 
 namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
 {
@@ -6,7 +7,7 @@ namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository
     {
     }
 
-    public partial interface IRepository<T> : IRepository where T : class
+    public partial interface IRepository<T> : IRepository where T : IBaseEntity
     {
         #region asynchronous methods
 

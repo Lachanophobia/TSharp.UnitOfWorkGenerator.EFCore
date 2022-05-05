@@ -13,7 +13,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Templates
 
 namespace {templateRepo.Namespace} 
 {{
-    public partial class {templateRepo.RepoName} : Repository<{templateRepo.Entity}>, {templateRepo.IRepoName} 
+    public partial class {templateRepo.RepoName} : {templateRepo.CustomRepository}<{templateRepo.Entity}>, {templateRepo.IRepoName} 
     {{ 
         private readonly {templateRepo.DBContextName} _context; 
  
@@ -35,7 +35,7 @@ namespace {templateRepo.Namespace}
 
 namespace {templateIRepo.Namespace} 
 {{
-    public partial interface {templateIRepo.IRepoName} : IRepository<{templateIRepo.Entity}> 
+    public partial interface {templateIRepo.IRepoName} : {templateIRepo.CustomRepository}<{templateIRepo.Entity}> 
     {{ 
     }} 
 }}

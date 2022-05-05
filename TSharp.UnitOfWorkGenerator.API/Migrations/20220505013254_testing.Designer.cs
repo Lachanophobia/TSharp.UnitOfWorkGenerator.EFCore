@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TSharp.UnitOfWorkGenerator.API.Entities;
 
@@ -11,9 +12,10 @@ using TSharp.UnitOfWorkGenerator.API.Entities;
 namespace TSharp.UnitOfWorkGenerator.API.Migrations
 {
     [DbContext(typeof(TSharpContext))]
-    partial class TSharpContextModelSnapshot : ModelSnapshot
+    [Migration("20220505013254_testing")]
+    partial class testing
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +58,9 @@ namespace TSharp.UnitOfWorkGenerator.API.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

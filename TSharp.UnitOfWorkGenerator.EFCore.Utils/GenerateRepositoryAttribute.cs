@@ -3,7 +3,17 @@
 namespace TSharp.UnitOfWorkGenerator.EFCore.Utils
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class GenerateRepository : Attribute
+    public class UoWGenerateRepository : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class UoWDefineDbContext : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class UoWOverrideRepository : Attribute
     {
     }
 }

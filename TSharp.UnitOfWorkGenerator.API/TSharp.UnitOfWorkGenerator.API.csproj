@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="uow.config.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
@@ -25,6 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="uow.config.json" />
     <AdditionalFiles Include="appsettings.json" />
   </ItemGroup>
 

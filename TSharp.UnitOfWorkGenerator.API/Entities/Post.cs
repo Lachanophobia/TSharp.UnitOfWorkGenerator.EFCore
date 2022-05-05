@@ -1,8 +1,9 @@
 ﻿using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
 namespace TSharp.UnitOfWorkGenerator.API.Entities;
-[GenerateRepository]
-public class Post
+
+[UoWGenerateRepository]
+public partial class Post
 {
     public int PostId { get; set; }
     public string Title { get; set; }
