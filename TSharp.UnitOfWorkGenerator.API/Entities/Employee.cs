@@ -2,8 +2,8 @@
 
 namespace TSharp.UnitOfWorkGenerator.API.Entities
 {
-    [GenerateRepository]
-    public class Employee
+    [UoWGenerateRepository]
+    public partial class Employee
     {
         public int EmployeeId { get; set; }
         public string FirstName { get; set; }

@@ -2,6 +2,13 @@
 {
     internal class GeneratedRepoNames
     {
+        public GeneratedRepoNames(string entityName)
+        {
+            Entity = entityName;
+            RepoName = $"{entityName}Repository";
+            IRepoName = $"I{entityName}Repository";
+        }
+
         public string Entity { get; set; }
         public string RepoName { get; set; }
         public string IRepoName { get; set; }

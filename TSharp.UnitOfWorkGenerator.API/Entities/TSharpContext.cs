@@ -2,6 +2,7 @@
 using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
 namespace TSharp.UnitOfWorkGenerator.API.Entities;
+[UoWDefineDbContext]
 public class TSharpContext : DbContext
 {
     private readonly IConfiguration _config;
@@ -27,4 +28,12 @@ public class TSharpContext : DbContext
         }
     }
 
+    /// <inheritdoc />
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Employee>()
+            .Ignore(x => x.CreatedDate);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }

@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace {templateBaseRepo.Namespace};
 
-public partial class Repository<T> : IRepository<T> where T : class
+public partial class Repository<T> : IRepository<T> where T : BaseEntity
 {{
     private readonly {templateBaseRepo.DBContextName} _db;
     internal DbSet<T> dbSet;
@@ -293,6 +293,7 @@ public partial class Repository<T> : IRepository<T> where T : class
         {
             var template = $@"// Auto-generated code
 using System.Linq.Expressions;
+{templateBaseIRepo.UsingStatements}
 
 namespace {templateBaseIRepo.Namespace}
 {{
@@ -300,7 +301,7 @@ namespace {templateBaseIRepo.Namespace}
     {{
     }}
 
-    public partial interface IRepository<T> : IRepository where T : class
+    public partial interface IRepository<T> : IRepository where T : IBaseEntity
     {{
         #region asynchronous methods
 

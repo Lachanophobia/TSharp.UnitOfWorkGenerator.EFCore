@@ -5,7 +5,7 @@ using TSharp.UnitOfWorkGenerator.Samples.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.Samples.Repositories.Repository;
 
-public partial class Repository<T> : IRepository<T> where T : class
+public partial class Repository<T> : IRepository<T> where T : BaseEntity
 {
     private readonly TSharpContext _db;
     internal DbSet<T> dbSet;

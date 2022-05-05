@@ -1,8 +1,8 @@
 ﻿using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
 namespace TSharp.UnitOfWorkGenerator.Samples.Entities;
-[GenerateRepository]
-public class Post
+[UoWGenerateRepository]
+public class Post : BaseEntity
 {
     public int PostId { get; set; }
     public string Title { get; set; }
