@@ -12,5 +12,6 @@
         internal string Parameters { get; set; }
         internal string Constructor { get; set; }
         internal string IdentityColumn { get; set; }
+        internal string CustomRepository { get; set; }
     }
 }

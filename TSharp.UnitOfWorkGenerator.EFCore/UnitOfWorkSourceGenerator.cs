@@ -16,13 +16,13 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
     {
         public void Initialize(GeneratorInitializationContext context)
         {
-            //#if DEBUG
-            //            if (!Debugger.IsAttached)
-            //            {
-            //                Debugger.Launch();
-            //            }
-            //#endif
-            //            Debug.WriteLine("Initalize code generator");
+//#if DEBUG
+//            if (!Debugger.IsAttached)
+//            {
+//                Debugger.Launch();
+//            }
+//#endif
+//            Debug.WriteLine("Initalize code generator");
         }
 
         public void Execute(GeneratorExecutionContext context)
@@ -41,6 +41,9 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
             var reposToBeAdded = relevantDeclarationSyntaxes
                 .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWGenerateRepository]"))).ToList();
+
+            var customRepository = relevantDeclarationSyntaxes
+                .FirstOrDefault(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWOverrideRepository]")));
 
             var (dbContextTypeDeclaration, dbContextName, dbContextNamespace) = SourceGenHelper.GetDbContextInfo(context, relevantDeclarationSyntaxes);
 
@@ -86,8 +89,8 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                     var genRepoNames = new GeneratedRepoNames(entity);
 
                     Generate.dbEntity(genRepoNames, settings, context);
-                    Generate.IRepository(genRepoNames, settings, context);
-                    Generate.Repository(genRepoNames, settings, context);
+                    Generate.IRepository(genRepoNames, settings, context, customRepository);
+                    Generate.Repository(genRepoNames, settings, context, customRepository);
 
                     Populate.UnitOfWorkGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, false);
                 });
@@ -98,8 +101,8 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             var genRepoNames = new GeneratedRepoNames(lastRepo);
 
             Generate.dbEntity(genRepoNames, settings, context);
-            Generate.IRepository(genRepoNames, settings, context);
-            Generate.Repository(genRepoNames, settings, context);
+            Generate.IRepository(genRepoNames, settings, context, customRepository);
+            Generate.Repository(genRepoNames, settings, context, customRepository);
 
             Populate.UnitOfWorkGeneratedInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, genRepoNames, true);
 

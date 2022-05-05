@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using TSharp.UnitOfWorkGenerator.EFCore.Models;
 using TSharp.UnitOfWorkGenerator.EFCore.Templates;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
 {
@@ -128,12 +129,14 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
             context.AddSource($"IUnitOfWork.g.cs", template);
         }
 
-        internal static void Repository(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context)
+        internal static void Repository(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context, TypeDeclarationSyntax customRepository)
         {
             var defaultUsings =
                $"using {settings.DBEntitiesNamespace}; \n" +
                $"using {settings.IRepoNamespace}; \n" +
                $"using {settings.DBContextNamespace};";
+
+            var customRepoName = customRepository != null ? customRepository.Identifier.ToString() : "Repository";
 
             var template = new Template()
             {
@@ -142,16 +145,19 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
                 RepoName = genRepoNames.RepoName,
                 Entity = genRepoNames.Entity,
                 IRepoName = genRepoNames.IRepoName,
-                DBContextName = settings.DBContextName
+                DBContextName = settings.DBContextName,
+                CustomRepository = customRepoName
             }.BuildRepoTemplate();
 
             context.AddSource($"{genRepoNames.RepoName}.g.cs", template);
         }
 
-        internal static void IRepository(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context)
+        internal static void IRepository(GeneratedRepoNames genRepoNames, UoWSourceGenerator settings, GeneratorExecutionContext context, TypeDeclarationSyntax customRepository)
         {
             var defaultUsings =
               $"using {settings.DBEntitiesNamespace}; \n";
+
+            var customRepoName = customRepository != null ? "I" + customRepository.Identifier.ToString() : "IRepository";
 
             var template = new Template()
             {
@@ -159,6 +165,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
                 Namespace = settings.IRepoNamespace,
                 Entity = genRepoNames.Entity,
                 IRepoName = genRepoNames.IRepoName,
+                CustomRepository = customRepoName
             }.BuildIRepoTemplate();
 
             context.AddSource($"{genRepoNames.IRepoName}.g.cs", template);

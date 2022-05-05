@@ -44,7 +44,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
 
         [HttpPost]
         [Route("AddNewEmployee")]
-        public async Task<IActionResult> AddNewEmploy(EmployeeRequest employeeRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddNewEmployee(EmployeeRequest employeeRequest, CancellationToken cancellationToken)
         {
             var employee = new Employee()
             {
@@ -58,6 +58,23 @@ namespace TSharp.UnitOfWorkGenerator.API.Controllers
             await _unitOfWork.SaveAsync();
 
             return Ok(employee);
+        }
+
+        [HttpPost]
+        [Route("AddNewPost")]
+        public async Task<IActionResult> AddNewPost(PostRequest postRequest, CancellationToken cancellationToken)
+        {
+            var post = new Post()
+            {
+                BlogId = postRequest.BlogId,
+                Content = postRequest.Content,
+                Title = postRequest.Title
+            };
+
+            await _unitOfWork.Post.AddAsync(post, cancellationToken);
+            await _unitOfWork.SaveAsync();
+
+            return Ok(post);
         }
     }
 }
