@@ -103,7 +103,7 @@ You can view your generated classes in the project you have installed the UnitOf
 # Customization
 **Here there is a lot of flexibility!**
 ## 1. Settings
-You can create a json file in the root of your project with this name `uow.config.json` and overwrite the repositories namespace, add additional generic methods to execute stored procedures and use Guids as Identity Column.
+You can create a json file in the root of your project (the one that used the UnitOfWorkGenerator) with this name `uow.config.json` and overwrite the repositories namespace, add additional generic methods to execute stored procedures and use Guids as Identity Column.
 Below you can find the settings for the json file.
 ```json
     "UoWSourceGenerator": {
@@ -121,7 +121,7 @@ Below you can find the settings for the json file.
 |EnableISP_Call           |`bool` (optional)  |This will add an extra Interface and Class into UnitOfWork to execute stored procedures. You need to **install Dapper** for this feature. Default is **false**|
 |EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
 
-Also you need to add to your .csproj file of project you have installed the UnitOfWorkGenerator following xml for the generator to pick your settings. 
+Also you will need to add to your .csproj file of the same project, the following xml for the generator to pick up your settings. 
 ```csharp
 <ItemGroup>
 	<AdditionalFiles Include="uow.config.json"  />
