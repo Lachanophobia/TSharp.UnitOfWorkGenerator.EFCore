@@ -155,8 +155,9 @@ and your `CustomRepository` needs to have a Constraint of type `BaseEntity`
 Alongside with the generated repositories, partial classes of your dbEntities are generated as well and they Inherit from the `BaseEntity` which also has an interface `IBaseEntity`*
 
 **This is all you need to Override the default Repository!**
+<hr>
 
-Now, why you may need the BaseEntity??
+Now, why you may need the BaseEntity??<br>
 Because this gives you the flexibility to have some generics properties for all your dbEntities. 
 
 A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
