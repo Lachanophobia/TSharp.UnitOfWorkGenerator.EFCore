@@ -159,7 +159,7 @@ Alongside with the generated repositories, partial classes of your dbEntities ar
 Now, why you may need the BaseEntity??
 Because this gives you the flexibility to have some generics properties for all your dbEntities. 
 
-A very common scenario is that you can have some properties like CreatedDate, UpdateDate, CreatedBy, UpdateBy etc.
+A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
 and you want to generalise the population of these. 
 
 **Here is an example how you can achieve this:**
