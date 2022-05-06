@@ -146,7 +146,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
 **2.2** Override the default generic repository! <br>
 You can create your own generic repository and decorate it with this attribute `[UoWOverrideRepository]`. 
 
-To do that you will need to inherit from the default `Repository` and also to provide an interface for that as well, which again needs to implement the default `IRepository`. 
+To do that you will need to inherit from the default `Repository` and also to provide an interface for that as well, which again needs to inherit the default `IRepository`. 
 
 Your `ICustomRepository` needs to have a Constraint of type `IBaseEntity`
 and your `CustomRepository` needs to have a Constraint of type `BaseEntity`
