@@ -197,7 +197,7 @@ Alongside with the generated repositories, partial classes of your dbEntities ar
 
 
 Now, why you may need the BaseEntity??<br>
-Because this gives you the flexibility to have some generics properties for all your dbEntities. 
+Because this gives you the flexibility to have some generic properties for all your dbEntities. 
 
 A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
 and you want to generalise the population of these. 
@@ -239,7 +239,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
     }
 }
 ```
-And override the methods you wish or create new ones!  
+Decorate the `CustomRepository` with the attribute `[UoWOverrideRepository]` and override the methods you wish or create new ones!  
 ```csharp
 [UoWOverrideRepository]
 public class CustomRepository<T> : Repository<T> where T : BaseEntity
