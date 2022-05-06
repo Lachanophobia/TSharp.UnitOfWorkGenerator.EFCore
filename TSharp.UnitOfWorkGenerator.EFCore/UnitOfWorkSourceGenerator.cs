@@ -36,14 +36,23 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 .SelectMany(syntaxTree => syntaxTree.GetRoot().DescendantNodes())
                 .Where(x => x is TypeDeclarationSyntax)
                 .Cast<TypeDeclarationSyntax>()
-                .Where(x => x.AttributeLists.Any(c => c.ToString().StartsWith("[UoW")))
+                .Where(x => x.AttributeLists.Any(c => c.ToString().StartsWith("[UoW", StringComparison.OrdinalIgnoreCase)))
                 .ToList();
 
+            var error = new DiagnosticDescriptor(id: "tets",
+                title: $"fount {relevantDeclarationSyntaxes.Count}",
+                messageFormat: $"fount {relevantDeclarationSyntaxes.Count}",
+                category: "UoWGenerator",
+                DiagnosticSeverity.Warning,
+                isEnabledByDefault: true);
+
+            context.ReportDiagnostic(Diagnostic.Create(error, Location.None));
+
             var reposToBeAdded = relevantDeclarationSyntaxes
-                .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWGenerateRepository]"))).ToList();
+                .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWGenerateRepository]", StringComparison.OrdinalIgnoreCase))).ToList();
 
             var customRepository = relevantDeclarationSyntaxes
-                .FirstOrDefault(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWOverrideRepository]")));
+                .FirstOrDefault(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWOverrideRepository]", StringComparison.OrdinalIgnoreCase)));
 
             var (dbContextTypeDeclaration, dbContextName, dbContextNamespace) = SourceGenHelper.GetDbContextInfo(context, relevantDeclarationSyntaxes);
 
@@ -53,7 +62,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             if (!Diagnostics.ValidateReposToBeAdded(context, reposToBeAdded))
                 return;
 
-            var settings = SourceGenHelper.GetUoWSourceGeneratorSettings(context, dbContextName, dbContextNamespace);
+            var settings = SourceGenHelper.GetUoWSourceGeneratorSettings(context, dbContextName, dbContextNamespace, SourceGenHelper.GetNamespace(reposToBeAdded.FirstOrDefault()));
 
             Generate.BaseEntity(settings, context);
             Generate.IBaseEntity(settings, context);

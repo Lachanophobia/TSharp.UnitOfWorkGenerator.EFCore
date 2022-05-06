@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSharp.UnitOfWorkGenerator.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSharp.UnitOfWorkGenerator.Samples", "TSharp.UnitOfWorkGenerator.Samples\TSharp.UnitOfWorkGenerator.Samples.csproj", "{2B03D5EB-AA5C-44A7-BC41-9B611334DF5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSharp.UnitOfWorkGenerator.EFCore", "TSharp.UnitOfWorkGenerator.EFCore\TSharp.UnitOfWorkGenerator.EFCore.csproj", "{D16F7447-68D5-4FB8-B531-46237AAE2E05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TSharp.UnitOfWorkGenerator.EFCore", "TSharp.UnitOfWorkGenerator.EFCore\TSharp.UnitOfWorkGenerator.EFCore.csproj", "{D16F7447-68D5-4FB8-B531-46237AAE2E05}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A5269803-8639-48F3-B1E0-D52C142CD8D1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

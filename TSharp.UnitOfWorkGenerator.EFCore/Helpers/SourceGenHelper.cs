@@ -55,7 +55,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
             return nameSpace;
         }
 
-        internal static UoWSourceGenerator GetUoWSourceGeneratorSettings(GeneratorExecutionContext context, string dbContextName, string dbContextNamespace)
+        internal static UoWSourceGenerator GetUoWSourceGeneratorSettings(GeneratorExecutionContext context, string dbContextName, string dbContextNamespace, string dbEntitiesNamespace)
         {
             var file = context.AdditionalFiles.FirstOrDefault(x => x.Path.Contains("uow.config.json"));
             var settings = new UoWSourceGenerator();
@@ -66,11 +66,6 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
                 {
                     settings = JsonConvert.DeserializeObject<AppSettings>(file.GetText().ToString()).UoWSourceGenerator;
                 }
-            }
-
-            if (string.IsNullOrWhiteSpace(settings.DBEntitiesNamespace))
-            {
-                settings.DBEntitiesNamespace = dbContextNamespace;
             }
 
             if (string.IsNullOrWhiteSpace(settings.IRepoNamespace))
@@ -86,6 +81,9 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Helpers
             settings.DBContextNamespace = dbContextNamespace;
 
             settings.DBContextName = dbContextName;
+
+            settings.DBEntitiesNamespace = dbEntitiesNamespace;
+
 
             return settings;
         }
