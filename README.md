@@ -103,7 +103,7 @@ You can view your generated classes in the project you have installed the UnitOf
 # Customization
 **Here there is a lot of flexibility!**
 ## 1. Settings
-You can create a json file in the root of your project (the one that used the UnitOfWorkGenerator) with this name `uow.config.json` and overwrite the repositories namespace, add additional generic methods to execute stored procedures and use Guids as Identity Column.
+You can create a json file in the root of your project (the one you installed UnitOfWorkGenerator) with this name `uow.config.json` and overwrite the repositories namespace, add additional generic methods to execute stored procedures and use Guids as Identity Column.
 Below you can find the settings for the json file.
 ```json
     "UoWSourceGenerator": {
