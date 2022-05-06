@@ -16,9 +16,9 @@ All classes are created as **partial** classes so you have the ability to extend
 ***supports .Net 5 and higher versions.***
 
 # Usage
-Add the attribute [GenerateRepository] to your dbEntity, build the project and that's it! your repository has been created!
+Add the attribute `[UoWGenerateRepository]` to your dbEntity, build the project and that's it! your repository has been created!
 
-![Alt Text](https://media.giphy.com/media/MO4vOE6zV4TzISSa5u/giphy.gif)
+![Alt Text](https://media.giphy.com/media/UG2iW4rl4UBSbYvZzm/giphy.gif)
 
 # Installation 
 
