@@ -324,9 +324,6 @@ You can view and dedug the generated files under your Dependencies -> Analyzers 
 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
-# Extend
-
-```
 
 Keep coding! Please get in touch for any issues or questions!
 
