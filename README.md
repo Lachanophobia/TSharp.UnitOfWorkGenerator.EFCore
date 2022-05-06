@@ -23,8 +23,8 @@ Add the attribute `[UoWGenerateRepository]` to your dbEntity, build the project 
 # Installation 
 
 **1.**  First you need to Install [Entity Framework Core](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) and create at least one dbEntity. Your db entities need to be created as **partial** classes. <br>
-**2.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
-**3.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
+**2.**  Install [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
+**3.**  Install [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
 **4.** Decorate your dbContext class with the attribute `[UoWDefineDbContext]` and your db entities with this attribute `[UoWGenerateRepository]`. So your classes should look like this.
 
 ```csharp
@@ -141,6 +141,44 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
     }
 }
 ```
+
+```csharp
+using TSharp.UnitOfWorkGenerator.API.Entities;
+using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
+
+namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
+{
+    public partial class PostRepository : Repository<Post>, IPostRepository
+    {
+        public async Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default)
+        {
+            var posts = (await this.GetAllAsync(cancellationToken: cancellationToken)).ToList();
+            posts.Add(new Post()
+            {
+                BlogId = 1,
+                Title = "My New Method",
+                Content = "My New Method",
+                PostId = 3
+            });
+
+            return posts;
+        }
+
+        /// <inheritdoc />
+        public override Post Get(int id)
+        {
+            return new Post()
+            {
+                BlogId = 1,
+                Title = "override Get",
+                Content = "override Get",
+                PostId = 3
+            };
+        }
+    }
+}
+
+```
 <hr>
 
 **2.2** Override the default generic repository! <br>
@@ -159,7 +197,7 @@ Alongside with the generated repositories, partial classes of your dbEntities ar
 
 
 Now, why you may need the BaseEntity??<br>
-Because this gives you the flexibility to have some generics properties for all your dbEntities. 
+Because this gives you the flexibility to have some generic properties for all your dbEntities. 
 
 A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
 and you want to generalise the population of these. 
@@ -201,7 +239,7 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
     }
 }
 ```
-And override the methods you wish or create new ones!  
+Decorate the `CustomRepository` with the attribute `[UoWOverrideRepository]` and override the methods you wish or create new ones!  
 ```csharp
 [UoWOverrideRepository]
 public class CustomRepository<T> : Repository<T> where T : BaseEntity
