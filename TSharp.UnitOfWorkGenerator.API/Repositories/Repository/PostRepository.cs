@@ -3,7 +3,7 @@ using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
 
 namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
 {
-    public partial class PostRepository : CustomRepository<Post>, IPostRepository
+    public partial class PostRepository : Repository<Post>, IPostRepository
     {
         public async Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default)
         {

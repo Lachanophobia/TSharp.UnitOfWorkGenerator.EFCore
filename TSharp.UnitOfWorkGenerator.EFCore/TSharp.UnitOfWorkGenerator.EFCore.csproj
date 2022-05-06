@@ -22,9 +22,9 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>SourceGenerator;Generator;Repository;RepositoryPattern;UnitOfWork</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
-    <Version>2.0.0-rc</Version>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.1-rc</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReleaseNotes>Breaking changes in this version. Refactor attribute name which is used to generate the repositories. Added additional attributes for easier and faster installation. Increase flexibility.</PackageReleaseNotes>
     <PackageIcon>uow-icon.png</PackageIcon>

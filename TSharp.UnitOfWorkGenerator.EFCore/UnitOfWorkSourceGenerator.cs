@@ -39,15 +39,6 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 .Where(x => x.AttributeLists.Any(c => c.ToString().StartsWith("[UoW", StringComparison.OrdinalIgnoreCase)))
                 .ToList();
 
-            var error = new DiagnosticDescriptor(id: "tets",
-                title: $"fount {relevantDeclarationSyntaxes.Count}",
-                messageFormat: $"fount {relevantDeclarationSyntaxes.Count}",
-                category: "UoWGenerator",
-                DiagnosticSeverity.Warning,
-                isEnabledByDefault: true);
-
-            context.ReportDiagnostic(Diagnostic.Create(error, Location.None));
-
             var reposToBeAdded = relevantDeclarationSyntaxes
                 .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWGenerateRepository]", StringComparison.OrdinalIgnoreCase))).ToList();
 
@@ -62,7 +53,10 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             if (!Diagnostics.ValidateReposToBeAdded(context, reposToBeAdded))
                 return;
 
-            var settings = SourceGenHelper.GetUoWSourceGeneratorSettings(context, dbContextName, dbContextNamespace, SourceGenHelper.GetNamespace(reposToBeAdded.FirstOrDefault()));
+            var repoToBeAddedLast = reposToBeAdded.LastOrDefault();
+            reposToBeAdded.Remove(repoToBeAddedLast);
+
+            var settings = SourceGenHelper.GetUoWSourceGeneratorSettings(context, dbContextName, dbContextNamespace, SourceGenHelper.GetNamespace(repoToBeAddedLast));
 
             Generate.BaseEntity(settings, context);
             Generate.IBaseEntity(settings, context);
@@ -81,9 +75,6 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
             StringBuilder uoWConstructor = new(), uoWParameters = new(), uoWProperties = new(), iUoWProperties = new();
 
             Populate.UnitOfWorkConstInfo(uoWConstructor, uoWParameters, uoWProperties, iUoWProperties, settings);
-
-            var toBeAddedLast = reposToBeAdded.LastOrDefault();
-            reposToBeAdded.Remove(toBeAddedLast);
 
             var options = new ParallelOptions { MaxDegreeOfParallelism = 4 };
 
@@ -105,7 +96,7 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 });
             }
 
-            var lastRepo = toBeAddedLast.Identifier.ToString();
+            var lastRepo = repoToBeAddedLast.Identifier.ToString();
 
             var genRepoNames = new GeneratedRepoNames(lastRepo);
 
