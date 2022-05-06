@@ -128,7 +128,7 @@ Also you will need to add to your .csproj file of the same project, the followin
 </ItemGroup>
 ```
 ## 2. Overrides
-**2.1.** All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods! Just remember to use the generated namespaces of these you provided .
+**2.1.** All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods! Just remember to use the generated namespaces or these you provided.
 
 ```csharp
 using TSharp.UnitOfWorkGenerator.API.Entities;
