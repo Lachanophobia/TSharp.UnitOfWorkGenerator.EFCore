@@ -1,3 +1,4 @@
+
 # UnitOfWorkGenerator - Repository Pattern Made easy!
 
 **UnitOfWorkGenerator** is a source generator. It runs during compilation, inspects your program for your dbContext Entities and produces the Repositories, the IRepositories, the UnitOfWork and the IUnitOfWork which are injected to your dll of the project you have installed the **UnitOfWorkGenerator**.
@@ -15,82 +16,76 @@ All classes are created as **partial** classes so you have the ability to extend
 ***supports .Net 5 and higher versions.***
 
 # Usage
-Add the attribute [GenerateRepository] to your dbEntity, build the project and that's it! your repository has been created!
+Add the attribute `[UoWGenerateRepository]` to your dbEntity, build the project and that's it! your repository has been created!
 
-![Alt Text](https://media.giphy.com/media/MO4vOE6zV4TzISSa5u/giphy.gif)
+![Alt Text](https://media.giphy.com/media/UG2iW4rl4UBSbYvZzm/giphy.gif)
 
 # Installation 
 
-1.  First you need to Install Entity Framework Core and create at least one dbEntity
-2.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore -Version 0.1.1-beta`
-3.  Install-Package `Install-Package TSharp.UnitOfWorkGenerator.EFCore.Utlis`
-
-## Settings
-
-4. You need to specify the namespaces the UnitOfWorkGenerator will use to generate the files.
-Into your appsettings of your project add the following settings.<br>  <br> **Note: If you are installing the UnitOfWorkGenerator to a class library then create a new appsetings.json file inside that project** 
-```json
-    "UoWSourceGenerator": {
-        "IRepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.IRepository",
-        "RepoNamespace": "TSharp.UnitOfWorkGenerator.API.Repositories.Repository",
-        "DBEntitiesNamespace": "TSharp.UnitOfWorkGenerator.API.Entities",
-        "DBContextName": "TSharpContext",
-        "EnableISP_Call": "True",
-        "EnableGuidIdentityColumn": "False"
-    }
-```
-
-| Settings                |Type      |Description                  |                    
-|-------------------------|----------|-----------------------------|
-|IRepoNamespace           |`string` (required)|The Namespace where you want to generate the Interfaces|
-|RepoNamespace            |`string` (required)|The Namespace where you want to generate the Implementation Classes|
-|DBEntitiesNamespace      |`string` (required)|The Namespace where your dbEntities live|
-|DBContextName            |`string` (required)|The Name of your class where you inherit from the DbContext|
-|EnableISP_Call           |`bool` (optional)  |This will add an extra Interface and Class into UnitOfWork to execute stored procedures. You need to **install Dapper** for this feature. Default is **false**|
-|EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
-
-5. Add the following xml inside your .csproj file of the project are installing the UnitOfWorkGenerator 
-```csharp
-<ItemGroup>
-	<AdditionalFiles Include="appsettings.json"  />
-</ItemGroup>
-```
-## Generate the Repositories
-6. Just add this attribute `[GenerateRepository]` to a dbEntity
+**1.**  First you need to Install [Entity Framework Core](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) and create at least one dbEntity. Your db entities need to be created as **partial** classes. <br>
+**2.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
+**3.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
+**4.** Decorate your dbContext class with the attribute `[UoWDefineDbContext]` and your db entities with this attribute `[UoWGenerateRepository]`. So your classes should look like this.
 
 ```csharp
-    using TSharp.UnitOfWorkGenerator.EFCore.Utils;    
-    namespace TSharp.UnitOfWorkGenerator.API.Entities;
-    
-    [GenerateRepository]
-    public class Post
+    [UoWDefineDbContext]
+    public class TSharpContext : DbContext
     {
-        public int PostId { get; set; }
-        public string Title { get; set; }
-        public string Content { get; set; }
-        public int BlogId { get; set; }
-        public Blog Blog { get; set; }
+        private readonly IConfiguration _config;
+
+        public TSharpContext(IConfiguration config) : base()
+        {
+            _config = config;
+        }
+
+        public DbSet<Post> Posts { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(
+                _config.GetConnectionString("TSharpContext"));
+            }
+        }
     }
 ```
+```csharp
+[UoWGenerateRepository]
+public partial class Post
+{
+    public int PostId { get; set; }
+    public string Title { get; set; }
+    public string Content { get; set; }
 
-## Build
+    public int BlogId { get; set; }
+    public Blog Blog { get; set; }
+}
+```
+<hr>
 
-7. Build the project! At this point your repository/ies has/have been created! <br><br>
+ **5.**  Build your project, and that's it! your repositories have been created!
+
+The default namespace for your repository interfaces will be : `{yourAssemblyName}.Repositories.IRepository`  <br> The default namespace for your repository classes will be : `{yourAssemblyName}.Repositories.IRepository`
+
+You can view your generated classes in the project you have installed the UnitOfWorkGenerator under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
+
 **Note: Some times Visual Studio can't resolve the newly created namespaces. It would be a good idea to restart Visual Studio. Later on when you will be consuming the UnitOfWorkGenerator, you will NOT have to restart Visual Studio all the time. <br><br>One more scenario that can occur is when you clean your solution and close the VS. So next time you will generate the repositories you will have to restart VS as well.**
+<hr>
 
-## Dependency Injection
-8. As you would do normally, you need to use Dependency Injection to register the interfaces. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+**6.** One last step before you start using the unit of work is to register all the generated repositories. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
-	builder.Services.Scan(scan => scan
-            .FromAssemblyOf<PostRepository>() // **Will scan the Assembly where the PostRepository lives, just add any Repository Class**
-            .AddClasses(classes => classes.AssignableTo<IRepository>()) // **Here leave the IRepository**
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
+    builder.Services.Scan(scan => scan
+           .FromAssemblyOf<PostRepository>() // **Will scan the Assembly where the PostRepository lives, just add any Repository Class**
+           .AddClasses(classes => classes.AssignableTo<IRepository>()) // **Here leave the IRepository**
+           .AsImplementedInterfaces()
+           .WithScopedLifetime());
 	    
-        builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
-        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped<ISP_Call, SP_Call>(); // **Add this only if you enable the ISP_Call**
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 ```
+
 ## You can start using it! 
 ```csharp
     public TestController(IUnitOfWork unitOfWork)
@@ -105,6 +100,133 @@ Into your appsettings of your project add the following settings.<br>  <br> **No
         return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1, cancellationToken));
     }
 ```
+# Customization
+**Here there is a lot of flexibility!**
+## 1. Settings
+You can create a json file in the root of your project (the one you installed UnitOfWorkGenerator) with this name `uow.config.json` and overwrite the repositories namespace, add additional generic methods to execute stored procedures and use Guids as Identity Column.
+Below you can find the settings for the json file.
+```json
+    "UoWSourceGenerator": {
+        "IRepoNamespace": "MyCustomNamespace.IRepositories",
+        "RepoNamespace": "MyCustomNamespace.Repositories",
+        "EnableISP_Call": "True",
+        "EnableGuidIdentityColumn": "False"
+    }
+```
+
+| Settings                |Type      |Description                  |                    
+|-------------------------|----------|-----------------------------|
+|IRepoNamespace           |`string` (required)|The Namespace where you want to generate the Interfaces|
+|RepoNamespace            |`string` (required)|The Namespace where you want to generate the Implementation Classes|
+|EnableISP_Call           |`bool` (optional)  |This will add an extra Interface and Class into UnitOfWork to execute stored procedures. You need to **install Dapper** for this feature. Default is **false**|
+|EnableGuidIdentityColumn |`bool` (optional)  |Simply choose between int and Guid as IdentityColumn. Default is **false**|
+
+Also you will need to add to your .csproj file of the same project, the following xml for the generator to pick up your settings. 
+```csharp
+<ItemGroup>
+	<AdditionalFiles Include="uow.config.json"  />
+</ItemGroup>
+```
+## 2. Overrides
+**2.1.** All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods! Just remember to use the generated namespaces or these you provided.
+
+```csharp
+using TSharp.UnitOfWorkGenerator.API.Entities;
+
+namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
+{
+    public partial interface IPostRepository
+    {
+        Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default);
+    }
+}
+```
+<hr>
+
+**2.2** Override the default generic repository! <br>
+You can create your own generic repository and decorate it with this attribute `[UoWOverrideRepository]`. 
+
+To do that you will need to inherit from the default `Repository` and also to provide an interface for that as well, which again needs to inherit the default `IRepository`. 
+
+Your `ICustomRepository` needs to have a Constraint of type `IBaseEntity`
+and your `CustomRepository` needs to have a Constraint of type `BaseEntity`
+
+**This is all you need to Override the default Repository!**
+<hr>
+
+*The `BaseEntity` is the reason your dbEntities needed to be partial classes. 
+Alongside with the generated repositories, partial classes of your dbEntities are generated as well and they Inherit from the `BaseEntity`.*
+
+
+Now, why you may need the BaseEntity??<br>
+Because this gives you the flexibility to have some generics properties for all your dbEntities. 
+
+A very common scenario is that you can have some properties like CreatedDate, UpdatedDate, CreatedBy, UpdateBy etc.
+and you want to generalise the population of these. 
+
+**Here is an example how you can achieve this:** <br>
+Create the IBaseEntity and the BaseEntity as partial classes with the namespace of your dbEntites and add the generic properties you wish.
+ 
+```csharp
+namespace TSharp.UnitOfWorkGenerator.API.Entities
+{
+    public partial class BaseEntity : IBaseEntity
+    {
+        public DateTime CreatedDate { get; set; }
+
+    }
+}
+
+```
+```csharp
+namespace TSharp.UnitOfWorkGenerator.API.Entities
+{
+    public partial interface IBaseEntity
+    {
+        public DateTime CreatedDate { get; set; }
+    }
+}
+
+```
+
+Then create your `ICustomRepository` and `CustomRepository` 
+
+```csharp
+namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
+{
+
+    public interface ICustomRepository<T> : IRepository<T> where T : IBaseEntity
+    {
+
+    }
+}
+```
+And override the methods you wish or create new ones!  
+```csharp
+[UoWOverrideRepository]
+public class CustomRepository<T> : Repository<T> where T : BaseEntity
+{
+    public TSharpContext _db { get; set; }
+    private DbSet<T> dbSet;
+    public CustomRepository(TSharpContext db) : base(db)
+    {
+        _db = db;
+        dbSet = _db.Set<T>();
+    }
+
+    /// <inheritdoc />
+    public override Task AddAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        entity.CreatedDate = DateTime.Now;
+
+        return base.AddAsync(entity, cancellationToken);
+    }
+}
+```
+If you used [Scrutor](https://github.com/khellang/Scrutor), you don't have to change anything in the service registration!
+
+**Basically, you can customize everything!** 
+
 # Exposed Methods
 ## IRepository 
 
@@ -202,58 +324,7 @@ You can view and dedug the generated files under your Dependencies -> Analyzers 
 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
-# Extend
-All classes are partials and all methods are virtual. So you can extend your repositories and override the default methods! Just remember to use the namespaces you provided in the appsettings.
 
-```csharp
-using TSharp.UnitOfWorkGenerator.API.Entities;
-
-namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
-{
-    public partial interface IPostRepository
-    {
-        Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default);
-    }
-}
-```
-
-```csharp
-using TSharp.UnitOfWorkGenerator.API.Entities;
-using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
-
-namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
-{
-    public partial class PostRepository : Repository<Post>, IPostRepository
-    {
-        public async Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default)
-        {
-            var posts = (await this.GetAllAsync(cancellationToken: cancellationToken)).ToList();
-            posts.Add(new Post()
-            {
-                BlogId = 1,
-                Title = "My New Method",
-                Content = "My New Method",
-                PostId = 3
-            });
-
-            return posts;
-        }
-
-        /// <inheritdoc />
-        public override Post Get(int id)
-        {
-            return new Post()
-            {
-                BlogId = 1,
-                Title = "override Get",
-                Content = "override Get",
-                PostId = 3
-            };
-        }
-    }
-}
-
-```
 Keep coding! Please get in touch for any issues or questions!
 
  
