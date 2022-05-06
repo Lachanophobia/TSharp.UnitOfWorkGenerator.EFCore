@@ -141,6 +141,44 @@ namespace TSharp.UnitOfWorkGenerator.API.Repositories.IRepository
     }
 }
 ```
+
+```csharp
+using TSharp.UnitOfWorkGenerator.API.Entities;
+using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
+
+namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
+{
+    public partial class PostRepository : Repository<Post>, IPostRepository
+    {
+        public async Task<List<Post>> GetPostsFromPartialClass(CancellationToken cancellationToken = default)
+        {
+            var posts = (await this.GetAllAsync(cancellationToken: cancellationToken)).ToList();
+            posts.Add(new Post()
+            {
+                BlogId = 1,
+                Title = "My New Method",
+                Content = "My New Method",
+                PostId = 3
+            });
+
+            return posts;
+        }
+
+        /// <inheritdoc />
+        public override Post Get(int id)
+        {
+            return new Post()
+            {
+                BlogId = 1,
+                Title = "override Get",
+                Content = "override Get",
+                PostId = 3
+            };
+        }
+    }
+}
+
+```
 <hr>
 
 **2.2** Override the default generic repository! <br>
