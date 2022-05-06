@@ -22,7 +22,7 @@ Add the attribute [GenerateRepository] to your dbEntity, build the project and t
 
 # Installation 
 
-**1.**  First you need to Install Entity Framework Core and create at least one dbEntity. Your db entities need to be created as **partial** classes. <br>
+**1.**  First you need to Install [Entity Framework Core](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) and create at least one dbEntity. Your db entities need to be created as **partial** classes. <br>
 **2.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
 **3.**  Install-Package [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
 **4.** Decorate your dbContext class with the attribute `[UoWDefineDbContext]` and your db entities with this attribute `[UoWGenerateRepository]`. So your classes should look like this.
