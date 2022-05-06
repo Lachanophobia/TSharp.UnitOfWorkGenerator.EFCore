@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -9,11 +9,11 @@
 	<PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
-        <AssemblyVersion>2.0.0</AssemblyVersion>
-        <FileVersion>2.0.0</FileVersion>
+        <AssemblyVersion>2.0.2</AssemblyVersion>
+        <FileVersion>2.0.2</FileVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-        <Version>2.0.1-rc</Version>
+        <Version>2.0.2-rc</Version>
         <Authors>Thomas Kassos</Authors>
         <Description>Provides the attributes where TSharp.UnitOfWorkGenerator.EFCore uses to generate the repositories.</Description>
         <PackageProjectUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore</PackageProjectUrl>
@@ -21,7 +21,7 @@
         <RepositoryUrl>https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageTags>SourceGenerator;Generator;Repository;RepositoryPattern;UnitOfWork</PackageTags>
-        <PackageReleaseNotes>Breaking changes in this version. Refactor attribute name. Added additional attributes for easier installation of the TSharp.UnitOfWorkGenerator.EFCore. </PackageReleaseNotes>
+        <PackageReleaseNotes></PackageReleaseNotes>
         <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
 
