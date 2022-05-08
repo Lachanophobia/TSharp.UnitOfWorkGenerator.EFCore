@@ -1,24 +1,31 @@
 
-TSharp.UnitOfWorkGenerator.API/bin/
+src/TSharp.UnitOfWorkGenerator.API/bin/
 
-TSharp.UnitOfWorkGenerator.API/obj/
+src/TSharp.UnitOfWorkGenerator.API/obj/
 
 .vs/
 
-TSharp.UnitOfWorkGenerator.EFCore/bin/
+src/TSharp.UnitOfWorkGenerator.EFCore/bin/
 
-TSharp.UnitOfWorkGenerator.EFCore/obj/
+src/TSharp.UnitOfWorkGenerator.EFCore/obj/
 
-TSharp.UnitOfWorkGenerator.EFCore.Utils/bin/
+src/TSharp.UnitOfWorkGenerator.EFCore.Utils/bin/
 
-TSharp.UnitOfWorkGenerator.EFCore.Utils/obj/
+src/TSharp.UnitOfWorkGenerator.EFCore.Utils/obj/
 
 .idea/
 
-TSharp.UnitOfWorkGenerator.Samples/bin/
+src/TSharp.UnitOfWorkGenerator.Samples/bin/
 
-TSharp.UnitOfWorkGenerator.Samples/obj/
+src/TSharp.UnitOfWorkGenerator.Samples/obj/
 
 TSharp.UnitOfWorkGenerator.EFCore.Tests/bin/
 
-TSharp.UnitOfWorkGenerator.EFCore.Tests/obj/
+src/TSharp.UnitOfWorkGenerator.EFCore.Tests/obj/
+
+src/TSharp.UnitOfWorkGenerator.API/bin/
+
+src/TSharp.UnitOfWorkGenerator.EFCore.Tests/bin/
+
+
+TSharp.UnitOfWorkGenerator.sln.DotSettings.user

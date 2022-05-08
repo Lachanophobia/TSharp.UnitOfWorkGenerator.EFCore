@@ -26,7 +26,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Include="..\uow-icon.png">
+      <None Include="..\..\docs\uow-icon.png">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
       </None>
