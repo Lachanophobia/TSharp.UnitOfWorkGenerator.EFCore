@@ -358,7 +358,7 @@ If you used [Scrutor](https://github.com/khellang/Scrutor), you don't have to ch
     }
 ```
 # Debugging
-You can view and dedug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
+You can view and debug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
