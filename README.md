@@ -1,5 +1,5 @@
 
-# UnitOfWorkGenerator - Repository Pattern Made easy!
+# <img src="https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/blob/main/uow.png" alt="Unit Of Work Generator" style="max-wdith:100%"/>
 
 **UnitOfWorkGenerator** is a source generator. It runs during compilation, inspects your program for your dbContext Entities and produces the Repositories, the IRepositories, the UnitOfWork and the IUnitOfWork which are injected to your dll of the project you have installed the **UnitOfWorkGenerator**.
 
@@ -358,7 +358,7 @@ If you used [Scrutor](https://github.com/khellang/Scrutor), you don't have to ch
     }
 ```
 # Debugging
-You can view and dedug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
+You can view and debug the generated files under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
