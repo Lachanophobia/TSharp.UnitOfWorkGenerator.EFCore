@@ -102,6 +102,8 @@ You can view your generated classes in the project you have installed the UnitOf
         return Ok(await _unitOfWork.Post.GetFirstOrDefaultAsync(x => x.BlogId!= 1, cancellationToken));
     }
 ```
+Please also check the [knowing Issues](#knowing-issues)
+
 # Customization
 **Here there is a lot of flexibility!**
 ## 1. Settings
