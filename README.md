@@ -1,5 +1,7 @@
 
-# UnitOfWorkGenerator - Repository Pattern Made easy!
+# <img src="https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/blob/main/uow.png" alt="Blazor Boilerplate" style="max-wdith:100%"/>
+
+##Repository Pattern Made easy!
 
 **UnitOfWorkGenerator** is a source generator. It runs during compilation, inspects your program for your dbContext Entities and produces the Repositories, the IRepositories, the UnitOfWork and the IUnitOfWork which are injected to your dll of the project you have installed the **UnitOfWorkGenerator**.
 
