@@ -63,20 +63,19 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Tests.TestDefaults
 
             Debug.Assert(baseEntity.Equals(SourceInfo.ExpectedBaseEntity));
             Debug.Assert(iBaseEntity.Equals(SourceInfo.ExpectedIBaseEntity));
-            Debug.Assert(repository.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedRepository.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(iRepository.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedIRepository.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(unitOfWork.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedUnitOfWOrk.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(iUnitOfWork.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedIUnitOfWork.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(employeeRepository.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedEmployeeRepository.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(iEmployeeRepository.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedIEmployeeRepository.Replace("\r\n", "\n").Replace("\r", "\n")));
-            Debug.Assert(employeeEntity.Replace("\r\n", "\n").Replace("\r", "\n").Equals(SourceInfo.ExpectedEmployeeEntity.Replace("\r\n", "\n").Replace("\r", "\n")));
+            Debug.Assert(repository.RemoveCR().Equals(SourceInfo.ExpectedRepository.RemoveCR()));
+            Debug.Assert(iRepository.RemoveCR().Equals(SourceInfo.ExpectedIRepository.RemoveCR()));
+            Debug.Assert(unitOfWork.RemoveCR().Equals(SourceInfo.ExpectedUnitOfWOrk.RemoveCR()));
+            Debug.Assert(iUnitOfWork.RemoveCR().Equals(SourceInfo.ExpectedIUnitOfWork.RemoveCR()));
+            Debug.Assert(employeeRepository.RemoveCR().Equals(SourceInfo.ExpectedEmployeeRepository.RemoveCR()));
+            Debug.Assert(iEmployeeRepository.RemoveCR().Equals(SourceInfo.ExpectedIEmployeeRepository.RemoveCR()));
+            Debug.Assert(employeeEntity.RemoveCR().Equals(SourceInfo.ExpectedEmployeeEntity.RemoveCR()));
 
             static Compilation CreateCompilation(string source)
             {
                 return CSharpCompilation.Create("TSharp.UnitOfWorkGenerator.API",
                     syntaxTrees: new[] { CSharpSyntaxTree.ParseText(source) },
                     references: Helpers.GetRequiredAssemblies(),
-
                     new CSharpCompilationOptions(OutputKind.ConsoleApplication)
                 );
             }

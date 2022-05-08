@@ -59,4 +59,18 @@ namespace TSharp.UnitOfWorkGenerator.EFCore.Tests
             return references;
         }
     }
+
+    public static class StringExtensions
+    {
+        /// <summary>
+        /// Removes Cartridge Return
+        /// </summary>
+        /// <param name="string"></param>
+        /// <returns></returns>
+        public static string RemoveCR(this string @string)
+        {
+            return @string.Replace("\r\n", "\n").Replace("\r", "\n");
+        }
+    }
+
 }
