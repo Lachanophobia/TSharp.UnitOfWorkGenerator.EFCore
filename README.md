@@ -68,7 +68,7 @@ public partial class Post
 
  **4.**  Build your project, and that's it! your repositories have been created!
 
-The default namespace for your repository interfaces will be : `{yourAssemblyName}.Repositories.IRepository`  <br> The default namespace for your repository classes will be : `{yourAssemblyName}.Repositories.IRepository`
+The default namespace for your repository interfaces will be : `{yourAssemblyName}.Repositories.IRepository`  <br> The default namespace for your repository classes will be : `{yourAssemblyName}.Repositories.Repository`
 
 You can view your generated classes in the project you have installed the UnitOfWorkGenerator under your Dependencies -> Analyzers -> TSharp.UnitOfWorkGenerator.EFCore
 
