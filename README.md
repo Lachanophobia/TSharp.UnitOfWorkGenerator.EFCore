@@ -13,7 +13,8 @@ Now you don't have to maintain large classes like the UnitOfWork every time you 
 
 All classes are created as **partial** classes so you have the ability to extended them.  
 
- [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)
+ Core [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
+ Utils [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.Utils.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)
  
 ***supports .Net 5 and higher versions.***
 
