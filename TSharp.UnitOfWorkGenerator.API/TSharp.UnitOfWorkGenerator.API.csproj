@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <AdditionalFiles Include="uow.config.json" />
-    <AdditionalFiles Include="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
