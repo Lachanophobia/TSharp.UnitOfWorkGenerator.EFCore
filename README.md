@@ -1,5 +1,5 @@
 
-# <img src="https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/blob/main/uow.png" alt="Unit Of Work Generator" style="max-wdith:100%"/>
+# <img src="https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/blob/main/docs/uow.png" alt="Unit Of Work Generator" style="max-wdith:100%"/>
 
 **UnitOfWorkGenerator** is a source generator. It runs during compilation, inspects your program for your dbContext Entities and produces the Repositories, the IRepositories, the UnitOfWork and the IUnitOfWork which are injected to your dll of the project you have installed the **UnitOfWorkGenerator**.
 
