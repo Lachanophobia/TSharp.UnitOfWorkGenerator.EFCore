@@ -22,7 +22,7 @@ jobs:
         dotnet-version: '6.0.x'
 
     - name: Build
-      run: dotnet build TSharp.UnitOfWorkGenerator.sln --configuration Release
+      run: dotnet build src/TSharp.UnitOfWorkGenerator.sln --configuration Release
             
     - name: Push to Nuget
       run: dotnet nuget push "**/*.nupkg" --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
