@@ -18,3 +18,7 @@ TSharp.UnitOfWorkGenerator.EFCore.Utils/obj/
 TSharp.UnitOfWorkGenerator.Samples/bin/
 
 TSharp.UnitOfWorkGenerator.Samples/obj/
+
+TSharp.UnitOfWorkGenerator.EFCore.Tests/bin/
+
+TSharp.UnitOfWorkGenerator.EFCore.Tests/obj/

@@ -2,4 +2,38 @@
 	
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="D:\Projects\TSharp.UnitOfWorkGenerator\TSharp.UnitOfWorkGenerator.EFCore\bin\Debug\netstandard2.0\TSharp.UnitOfWorkGenerator.EFCore.dll" /&gt;&#xD;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\thoma\AppData\Local\Temp\JetBrains\ReSharperPlatformVs17\vAny_d845353b\CoverageData\_TSharp.UnitOfWorkGenerator.-1295442828\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=1728f65d_002Dfd02_002D4363_002Daeda_002D528534b8bf9b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestDefaultSettings" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests.TestDefaultSettings&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3ec44746_002D8cda_002D41e2_002Daf44_002Dda765fbb4770/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="SimpleGeneratorTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests.SimpleGeneratorTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4d64a06c_002Dd603_002D4b5c_002D95d5_002Db059d0dcc888/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="TestDefaultSettings #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::TSharp.UnitOfWorkGenerator.EFCore.Tests.TestDefaults.TestDefaults.TestDefaultSettings&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c4ef9880_002Db926_002D4cba_002Db389_002Dfd92dbc89a4f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="TestDefaultSettings #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests.TestDefaultSettings&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d4177343_002D2ba6_002D421f_002Da676_002D888728ff655c/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IsPrime_InputIs1_ReturnFalse" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e9d1599d_002D505f_002D4f21_002D8e8a_002Dd049b7435108/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="IsPrime_InputIs1_ReturnFalse #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::TSharp.UnitOfWorkGenerator.EFCore.Tests.MyTest.IsPrime_InputIs1_ReturnFalse&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests.SimpleGeneratorTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::B4274929-4C08-46ED-A022-99AAB7FC2FC7::net6.0::GeneratorTests.Tests.GeneratorTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>
