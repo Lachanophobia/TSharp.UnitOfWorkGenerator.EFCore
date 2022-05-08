@@ -366,7 +366,7 @@ You can view and debug the generated files under your Dependencies -> Analyzers 
 
 ![Alt Text](https://media.giphy.com/media/lnn1mBfmq15mV4yvT1/giphy.gif)
 
-# knowing issues
+# Knowing issues
 If you are referecing the project with the UnitOfWorkGenerator package from another project, the UnitOfWorkGenerator analyser will run twice.<br/>
 This is the error probably you will see `UoW004 The attribute [UoWDefineDbContext] is not been used.`
 <br/> Add this xml to the referecing project .csproj file. You can see the open roslyn issue here https://github.com/dotnet/roslyn/issues/59725 .
