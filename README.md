@@ -13,6 +13,9 @@ Now you don't have to maintain large classes like the UnitOfWork every time you 
 
 All classes are created as **partial** classes so you have the ability to extended them.  
 
+ Core [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
+ Utils [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.Utils.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)
+ 
 ***supports .Net 5 and higher versions.***
 
 # Usage
@@ -23,9 +26,8 @@ Add the attribute `[UoWGenerateRepository]` to your dbEntity, build the project 
 # Installation 
 
 **1.**  First you need to Install [Entity Framework Core](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore/) and create at least one dbEntity. Your db entities need to be created as **partial** classes. <br>
-**2.**  Install [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
-**3.**  Install [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
-**4.** Decorate your dbContext class with the attribute `[UoWDefineDbContext]` and your db entities with this attribute `[UoWGenerateRepository]`. So your classes should look like this.
+**2.**  Install [TSharp.UnitOfWorkGenerator.EFCore](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/) and [TSharp.UnitOfWorkGenerator.EFCore.Utils](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br>
+**3.** Decorate your dbContext class with the attribute `[UoWDefineDbContext]` and your db entities with this attribute `[UoWGenerateRepository]`. So your classes should look like this.
 
 ```csharp
     [UoWDefineDbContext]
@@ -64,7 +66,7 @@ public partial class Post
 ```
 <hr>
 
- **5.**  Build your project, and that's it! your repositories have been created!
+ **4.**  Build your project, and that's it! your repositories have been created!
 
 The default namespace for your repository interfaces will be : `{yourAssemblyName}.Repositories.IRepository`  <br> The default namespace for your repository classes will be : `{yourAssemblyName}.Repositories.IRepository`
 
@@ -73,7 +75,7 @@ You can view your generated classes in the project you have installed the UnitOf
 **Note: Some times Visual Studio can't resolve the newly created namespaces. It would be a good idea to restart Visual Studio. Later on when you will be consuming the UnitOfWorkGenerator, you will NOT have to restart Visual Studio all the time. <br><br>One more scenario that can occur is when you clean your solution and close the VS. So next time you will generate the repositories you will have to restart VS as well.**
 <hr>
 
-**6.** One last step before you start using the unit of work is to register all the generated repositories. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
+**5.** One last step before you start using the unit of work is to register all the generated repositories. I would recommend to use [Scrutor](https://github.com/khellang/Scrutor). With Scrutor you can forget the service registration for your repositories.
 **See example:** <br>
 ```csharp
     builder.Services.Scan(scan => scan
