@@ -1,0 +1,6 @@
+{
+  "UoWSourceGenerator": {
+    "EnableISP_Call": "True",
+    "EnableGuidIdentityColumn": "False"
+  }
+}

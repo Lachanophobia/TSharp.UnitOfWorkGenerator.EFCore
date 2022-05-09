@@ -1,7 +1,7 @@
-﻿using TSharp.UnitOfWorkGenerator.API.Entities;
-using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
+﻿using TSharp.UnitOfWorkGenerator.DataAccess.Entities;
+using TSharp.UnitOfWorkGenerator.DataAccess.Repositories.IRepository;
 
-namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository
+namespace TSharp.UnitOfWorkGenerator.DataAccess.Repositories.Repository
 {
     public partial class PostRepository : Repository<Post>, IPostRepository
     {

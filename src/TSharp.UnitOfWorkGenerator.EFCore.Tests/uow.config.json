@@ -1,7 +1,7 @@
 {
   "UoWSourceGenerator": {
     "IRepoNamespace": "CustomNameSpace.IRepo",
-    "RepoNamespace": "CustomNameSpace.IRepo",
+    "RepoNamespace": "CustomNameSpace.Repo",
     "EnableISP_Call": "True",
     "EnableGuidIdentityColumn": "True"
   }

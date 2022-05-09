@@ -1,6 +1,6 @@
 ﻿using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
-namespace TSharp.UnitOfWorkGenerator.API.Entities
+namespace TSharp.UnitOfWorkGenerator.DataAccess.Entities
 {
     [UoWGenerateRepository]
     public partial class Employee

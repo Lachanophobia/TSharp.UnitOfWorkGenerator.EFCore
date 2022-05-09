@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using TSharp.UnitOfWorkGenerator.API.Entities;
-using TSharp.UnitOfWorkGenerator.API.Models;
-using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
+using TSharp.UnitOfWorkGenerator.DataAccess.Entities;
+using TSharp.UnitOfWorkGenerator.DataAccess.Models;
+using TSharp.UnitOfWorkGenerator.DataAccess.Repositories.IRepository;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

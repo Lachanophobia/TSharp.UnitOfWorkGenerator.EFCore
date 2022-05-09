@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSharp.UnitOfWorkGenerator.API.Models
+namespace TSharp.UnitOfWorkGenerator.DataAccess.Models
 {
     public class PostRequest
     {

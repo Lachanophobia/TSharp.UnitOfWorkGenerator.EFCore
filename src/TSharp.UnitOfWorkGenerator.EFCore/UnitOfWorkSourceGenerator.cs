@@ -27,9 +27,6 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
 
         public void Execute(GeneratorExecutionContext context)
         {
-            if (!Diagnostics.CheckedForEntityFrameworkCoreDependency(context))
-                return;
-
             var syntaxTrees = context.Compilation.SyntaxTrees;
 
             var relevantDeclarationSyntaxes = syntaxTrees
@@ -38,6 +35,12 @@ namespace TSharp.UnitOfWorkGenerator.EFCore
                 .Cast<TypeDeclarationSyntax>()
                 .Where(x => x.AttributeLists.Any(c => c.ToString().StartsWith("[UoW", StringComparison.OrdinalIgnoreCase)))
                 .ToList();
+
+            if (relevantDeclarationSyntaxes == null || !relevantDeclarationSyntaxes.Any())
+                return;
+
+            if (!Diagnostics.CheckedForEntityFrameworkCoreDependency(context))
+                return;
 
             var reposToBeAdded = relevantDeclarationSyntaxes
                 .Where(x => x.AttributeLists.Any(c => c.ToString().Equals("[UoWGenerateRepository]", StringComparison.OrdinalIgnoreCase))).ToList();

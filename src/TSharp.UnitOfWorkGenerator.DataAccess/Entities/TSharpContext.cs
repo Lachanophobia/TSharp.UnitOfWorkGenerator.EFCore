@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
-namespace TSharp.UnitOfWorkGenerator.API.Entities;
+namespace TSharp.UnitOfWorkGenerator.DataAccess.Entities;
 [UoWDefineDbContext]
 public class TSharpContext : DbContext
 {
@@ -31,8 +32,6 @@ public class TSharpContext : DbContext
     /// <inheritdoc />
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Employee>()
-            .Ignore(x => x.CreatedDate);
 
         base.OnModelCreating(modelBuilder);
     }

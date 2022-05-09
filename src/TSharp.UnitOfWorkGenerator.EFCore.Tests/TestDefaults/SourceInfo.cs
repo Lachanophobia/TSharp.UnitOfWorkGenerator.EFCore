@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using TSharp.UnitOfWorkGenerator.API.Entities;
+using TSharp.UnitOfWorkGenerator.DataAccess.Entities;
 using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
 namespace TSharp.UnitOfWorkGenerator.EFCore.Tests.TestDefaults
@@ -15,8 +15,8 @@ public class Program
 {
     static void Main(string[] args)
     {
-        }
     }
+}
 
 
 namespace TSharp.UnitOfWorkGenerator.API.Entities

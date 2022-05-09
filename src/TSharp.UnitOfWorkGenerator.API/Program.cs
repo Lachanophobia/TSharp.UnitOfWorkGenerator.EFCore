@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using TSharp.UnitOfWorkGenerator.API.Repositories.Repository;
-using TSharp.UnitOfWorkGenerator.API.Repositories.IRepository;
-using TSharp.UnitOfWorkGenerator.API.Entities;
+using TSharp.UnitOfWorkGenerator.DataAccess.Repositories.Repository;
+using TSharp.UnitOfWorkGenerator.DataAccess.Repositories.IRepository;
+using TSharp.UnitOfWorkGenerator.DataAccess.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

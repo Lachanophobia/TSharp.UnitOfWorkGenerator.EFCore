@@ -1,9 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TSharp.UnitOfWorkGenerator.API.Entities;
+using TSharp.UnitOfWorkGenerator.DataAccess.Entities;
 using TSharp.UnitOfWorkGenerator.EFCore.Utils;
 
-namespace TSharp.UnitOfWorkGenerator.API.Repositories.Repository;
+namespace TSharp.UnitOfWorkGenerator.DataAccess.Repositories.Repository;
 
 //[UoWOverrideRepository]
 //public class CustomRepository<T> : Repository<T> where T : BaseEntity

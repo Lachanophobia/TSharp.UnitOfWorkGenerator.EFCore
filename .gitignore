@@ -29,3 +29,7 @@ src/TSharp.UnitOfWorkGenerator.EFCore.Tests/bin/
 
 
 TSharp.UnitOfWorkGenerator.sln.DotSettings.user
+
+src/TSharp.UnitOfWorkGenerator.DataAccess/bin/
+
+src/TSharp.UnitOfWorkGenerator.DataAccess/obj/

@@ -1,4 +1,4 @@
-﻿namespace TSharp.UnitOfWorkGenerator.API.Entities
+﻿namespace TSharp.UnitOfWorkGenerator.DataAccess.Entities
 {
     public partial interface IBaseEntity
     {
