@@ -13,9 +13,9 @@ Now you don't have to maintain large classes like the UnitOfWork every time you 
 
 All classes are created as **partial** classes so you have the ability to extended them.  
 
- Core [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)<br>
- Utils [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.Utils.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)<br/>
-[![Build](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml/badge.svg)](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml)
+ Core [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)&nbsp;&nbsp;&nbsp; Utils 
+ [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.Utils.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)&nbsp;&nbsp;&nbsp; 
+ [![Build](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml/badge.svg)](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml)
  
 ***supports .Net 5 and higher versions.***
 
