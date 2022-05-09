@@ -25,7 +25,7 @@ jobs:
       run: dotnet build src/TSharp.UnitOfWorkGenerator.sln --configuration Release
       
     - name: Test
-      run: dotnet build src/TSharp.UnitOfWorkGenerator.EFCore.Tests/TSharp.UnitOfWorkGenerator.EFCore.Tests.csproj
+      run: dotnet build src/TSharp.UnitOfWorkGenerator.EFCore.Tests/TSharp.UnitOfWorkGenerator.EFCore.Tests.csproj --configuration Release
             
     - name: Push to Nuget
       run: dotnet nuget push "**/*.nupkg" --api-key ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json --skip-duplicate
