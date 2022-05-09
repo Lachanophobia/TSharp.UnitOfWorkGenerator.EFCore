@@ -15,7 +15,8 @@ All classes are created as **partial** classes so you have the ability to extend
 
  Core [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore/)&nbsp;&nbsp;&nbsp; Utils 
  [![NuGet Package](https://img.shields.io/nuget/v/TSharp.UnitOfWorkGenerator.EFCore.Utils.svg)](https://www.nuget.org/packages/TSharp.UnitOfWorkGenerator.EFCore.Utils/)&nbsp;&nbsp;&nbsp; 
- [![Build](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml/badge.svg)](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml)
+ [![Build](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml/badge.svg)](https://github.com/Lachanophobia/TSharp.UnitOfWorkGenerator.EFCore/actions/workflows/main.yml)&nbsp;&nbsp;&nbsp; 
+ [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
  
 ***supports .Net 5 and higher versions.***
 
